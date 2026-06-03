@@ -3,7 +3,7 @@
 Personal portfolio of **Mukul Gupta** — AI Automation Engineer, GenAI Developer & Web Developer.
 Immersive single-page site with a WebGL neural-mesh hero, shader background, and Framer Motion animations.
 
-🔗 **Live:** https://mukulportfolio.vercel.app/
+🔗 **Live:** https://mukulportfolio-rho.vercel.app/
 
 ## Tech Stack
 
