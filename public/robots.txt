@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://mukulportfolio.vercel.app/sitemap.xml
+Sitemap: https://mukulportfolio-rho.vercel.app/sitemap.xml
