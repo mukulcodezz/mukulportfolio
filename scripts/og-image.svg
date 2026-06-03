@@ -1,0 +1,67 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#080816"/>
+      <stop offset="100%" stop-color="#0d0d1f"/>
+    </linearGradient>
+    <linearGradient id="grad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#a78bfa"/>
+      <stop offset="100%" stop-color="#67e8f9"/>
+    </linearGradient>
+    <radialGradient id="orb1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="orb2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#06b6d4" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="1050" cy="120" r="380" fill="url(#orb1)"/>
+  <circle cx="120" cy="560" r="320" fill="url(#orb2)"/>
+
+  <!-- availability pill -->
+  <g transform="translate(80,150)">
+    <rect width="280" height="44" rx="22" fill="#7c3aed" fill-opacity="0.15" stroke="#7c3aed" stroke-opacity="0.35"/>
+    <circle cx="28" cy="22" r="5" fill="#06b6d4"/>
+    <text x="46" y="29" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="700" letter-spacing="2" fill="#c4b5fd">AVAILABLE FOR PROJECTS</text>
+  </g>
+
+  <!-- name -->
+  <text x="80" y="290" font-family="Inter, Arial, sans-serif" font-size="84" font-weight="900" fill="#ffffff">Mukul Gupta</text>
+
+  <!-- role -->
+  <text x="80" y="370" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800" fill="url(#grad)">AI Automation Engineer &amp; GenAI Developer</text>
+
+  <!-- tagline -->
+  <text x="80" y="430" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="500" fill="#94a3b8">Building AI Agents, Automations &amp; Websites that help businesses grow.</text>
+
+  <!-- tech chips -->
+  <g font-family="Inter, Arial, sans-serif" font-size="20" font-weight="600" fill="#cbd5e1">
+    <g transform="translate(80,490)">
+      <rect width="170" height="48" rx="10" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.08"/>
+      <text x="24" y="31">Claude API</text>
+    </g>
+    <g transform="translate(266,490)">
+      <rect width="100" height="48" rx="10" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.08"/>
+      <text x="24" y="31">MCP</text>
+    </g>
+    <g transform="translate(382,490)">
+      <rect width="90" height="48" rx="10" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.08"/>
+      <text x="24" y="31">n8n</text>
+    </g>
+    <g transform="translate(488,490)">
+      <rect width="120" height="48" rx="10" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.08"/>
+      <text x="24" y="31">React</text>
+    </g>
+    <g transform="translate(624,490)">
+      <rect width="210" height="48" rx="10" fill="#ffffff" fill-opacity="0.05" stroke="#ffffff" stroke-opacity="0.08"/>
+      <text x="24" y="31">Prompt Engineering</text>
+    </g>
+  </g>
+
+  <!-- monogram -->
+  <text x="1120" y="560" text-anchor="end" font-family="Inter, Arial, sans-serif" font-size="40" font-weight="900" fill="url(#grad)">MG.</text>
+</svg>

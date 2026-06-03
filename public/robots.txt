@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mukulportfolio.vercel.app/sitemap.xml
