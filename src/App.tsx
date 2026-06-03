@@ -5,6 +5,8 @@ import About from '@/components/about/About'
 import Skills from '@/components/skills/Skills'
 import Projects from '@/components/projects/Projects'
 import Experience from '@/components/experience/Experience'
+import GitHubActivity from '@/components/github/GitHubActivity'
+import Certifications from '@/components/certifications/Certifications'
 import TechStack from '@/components/techstack/TechStack'
 import Testimonials from '@/components/testimonials/Testimonials'
 import Contact from '@/components/contact/Contact'
@@ -21,6 +23,8 @@ export default function App() {
         <Skills />
         <Projects />
         <Experience />
+        <GitHubActivity />
+        <Certifications />
         <TechStack />
         <Testimonials />
         <Contact />

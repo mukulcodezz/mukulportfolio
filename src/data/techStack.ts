@@ -10,7 +10,7 @@ export const techColumns: TechColumn[] = [
     title: 'Programming',
     iconName: 'Terminal',
     dotColor: '#06b6d4',
-    items: ['Python', 'JavaScript', 'HTML5', 'CSS3'],
+    items: ['Python', 'JavaScript', 'C', 'HTML5', 'CSS3'],
   },
   {
     title: 'AI & Automation',

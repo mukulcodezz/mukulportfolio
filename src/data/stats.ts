@@ -5,8 +5,8 @@ export interface Stat {
 }
 
 export const heroStats: Stat[] = [
-  { value: 5, suffix: '+', label: 'Projects Built' },
-  { value: 1, suffix: 'st', label: 'Hackathon Place' },
-  { value: 10, suffix: '+', label: 'AI Tools Mastered' },
-  { value: '∞', suffix: '', label: 'Automation Ideas' },
+  { value: 4, suffix: '+', label: 'Production Projects' },
+  { value: 3, suffix: '', label: 'Hackathons Participated' },
+  { value: 1, suffix: '', label: 'Hackathon Win' },
+  { value: 'Multiple', suffix: '', label: 'International Clients' },
 ]

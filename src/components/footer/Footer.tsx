@@ -26,6 +26,9 @@ const socialLinks = [
 export default function Footer() {
   return (
     <footer className="bg-[#0d0d1f] border-t border-white/[0.05] py-8 px-6">
+      <p className="max-w-6xl mx-auto text-center text-sm text-white/45 mb-6">
+        Building the future with AI, automation, and scalable software.
+      </p>
       <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
         <span className="text-xl font-black bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">
           Mukul Gupta

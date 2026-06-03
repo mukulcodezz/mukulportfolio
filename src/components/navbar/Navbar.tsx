@@ -7,6 +7,8 @@ const navLinks = [
   { label: 'Skills', href: '#skills' },
   { label: 'Projects', href: '#projects' },
   { label: 'Experience', href: '#experience' },
+  { label: 'Activity', href: '#activity' },
+  { label: 'Certs', href: '#certifications' },
   { label: 'Tech', href: '#techstack' },
   { label: 'Contact', href: '#contact' },
 ]
@@ -46,7 +48,7 @@ export default function Navbar() {
             </span>
           </a>
 
-          <ul className="hidden md:flex items-center gap-8">
+          <ul className="hidden md:flex items-center gap-5 lg:gap-7">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <button

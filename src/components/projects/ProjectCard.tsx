@@ -74,7 +74,22 @@ export default function ProjectCard({ project }: { project: Project }) {
       {/* Content */}
       <div className="p-6 flex flex-col gap-4 flex-1">
         <h3 className="text-lg font-bold">{project.title}</h3>
-        <p className="text-sm text-white/55 leading-relaxed flex-1">{project.description}</p>
+        <p className="text-sm text-white/55 leading-relaxed">{project.description}</p>
+
+        {/* Highlights */}
+        {project.highlights && project.highlights.length > 0 && (
+          <ul className="flex flex-col gap-1.5 flex-1">
+            {project.highlights.map((h) => (
+              <li key={h} className="flex items-start gap-2 text-xs text-white/55">
+                <span
+                  className="mt-1.5 w-1 h-1 rounded-full flex-shrink-0"
+                  style={{ background: project.accentColor }}
+                />
+                {h}
+              </li>
+            ))}
+          </ul>
+        )}
 
         {/* Tags */}
         <div className="flex flex-wrap gap-1.5">

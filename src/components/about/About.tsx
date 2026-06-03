@@ -5,12 +5,12 @@ import ProfileCard from './ProfileCard'
 import { slideInLeft, slideInRight } from '@/lib/variants'
 
 const highlights = [
-  { icon: Bot, label: 'AI Agent Development' },
+  { icon: Bot, label: 'AI Agents' },
   { icon: Zap, label: 'Workflow Automation' },
-  { icon: Code, label: 'Web Development' },
+  { icon: Brain, label: 'Claude & Gemini Integrations' },
+  { icon: Network, label: 'MCP Development' },
+  { icon: Code, label: 'Business Websites' },
   { icon: Plug, label: 'API Integrations' },
-  { icon: Brain, label: 'Prompt Engineering' },
-  { icon: Network, label: 'MCP Protocol' },
 ]
 
 export default function About() {
@@ -31,10 +31,13 @@ export default function About() {
           </div>
 
           <p className="text-white/60 leading-relaxed">
-            I'm a B.Tech student at ITS Engineering College (AKTU) with hands-on experience in Generative AI, AI Agents, Workflow Automation, Prompt Engineering, MCP (Model Context Protocol), APIs, and Web Development.
+            I'm a B.Tech student at ITS Engineering College (AKTU) specializing in AI Automation, Generative AI, and Web Development. I build practical solutions that solve real business problems.
           </p>
           <p className="text-white/60 leading-relaxed">
-            I build practical AI solutions that automate business processes, improve efficiency, and create better user experiences. My focus is on transforming ideas into scalable AI-powered systems.
+            My experience spans AI Agents, workflow automation, Claude &amp; Gemini integrations, MCP development, business websites, lead generation systems, and API integrations.
+          </p>
+          <p className="text-white/60 leading-relaxed">
+            I've worked with travel companies, NFT projects, international organizations, and AI-powered applications.
           </p>
 
           <div className="grid grid-cols-2 gap-3 mt-2">

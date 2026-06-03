@@ -3,6 +3,7 @@ export interface Project {
   title: string
   description: string
   tags: string[]
+  highlights?: string[]
   badge: { text: string; color: string } | null
   links: { github?: string; live?: string }
   accentColor: string
@@ -15,8 +16,15 @@ export const projects: Project[] = [
     id: 'anchor-mcp',
     title: 'Anchor Scaffold MCP',
     description:
-      'AI code generator for Solana Anchor programs — generates TypeScript clients, Rust accounts, tests, and full programs straight from your IDL. Ships as both an MCP server and a CLI.',
+      'Converts an IDL or plain-English spec into production-ready Solana Anchor code. Ships as both an MCP server and a CLI.',
     tags: ['MCP', 'Claude API', 'TypeScript', 'Rust', 'Solana', 'CLI'],
+    highlights: [
+      'MCP server + CLI',
+      'TypeScript client generation',
+      'Rust account & program generation',
+      'Automated test scaffolding',
+      'Solana ecosystem tooling',
+    ],
     badge: { text: 'MCP Server', color: '#7c3aed' },
     links: {
       github: 'https://github.com/mukulcodezz/anchor-scaffold-mcp',
@@ -30,8 +38,14 @@ export const projects: Project[] = [
     id: 'whatsapp-bot',
     title: 'AI WhatsApp Attendance Bot',
     description:
-      'AI-powered WhatsApp bot that automates attendance tracking and reporting. Cut manual effort by 90% and won 1st place at the college hackathon — built in 24 hours.',
+      'AI-powered WhatsApp bot that automates attendance tracking and reporting. Won 1st place at the college hackathon — built in 24 hours.',
     tags: ['Python', 'WhatsApp API', 'AI', 'Automation', 'n8n'],
+    highlights: [
+      'Automated attendance tracking',
+      'WhatsApp Business API integration',
+      'Real-time reporting',
+      'Cut manual effort by 90%',
+    ],
     badge: { text: '🏆 Hackathon Winner', color: '#ec4899' },
     links: { github: 'https://github.com/mukulcodezz' },
     accentColor: '#ec4899',
@@ -40,10 +54,17 @@ export const projects: Project[] = [
   },
   {
     id: 'linkedin-outreach',
-    title: 'LinkedIn Outreach Assistant',
+    title: 'LinkedIn Outreach Skill',
     description:
-      'Config-driven Claude Agent Skill for personalized, nurture-first LinkedIn outreach. Fill one config file and reuse it for any business — profile analysis, lead scoring, and message drafting.',
+      'A configuration-driven Claude Agent Skill that turns LinkedIn profile screenshots into personalized outreach strategies.',
     tags: ['Claude Agent Skills', 'Prompt Engineering', 'Automation', 'JavaScript'],
+    highlights: [
+      'Claude-powered workflows',
+      'Personalized prospecting',
+      'Lead scoring',
+      'Nurture-first outreach generation',
+      'Multi-industry adaptability',
+    ],
     badge: null,
     links: {
       github: 'https://github.com/mukulcodezz/linkedin-outreach-skill',
@@ -55,10 +76,17 @@ export const projects: Project[] = [
   },
   {
     id: 'shalom-travel',
-    title: 'Shalom Tours & Travels',
+    title: 'Shalom Tours & Travels Website',
     description:
-      'Production travel website for Shalom Tours & Travels — responsive, fast, and built to turn visitors into bookings. Live company site shipped end-to-end.',
+      'Official website for a travel and corporate travel management company — designed and developed end-to-end.',
     tags: ['React', 'Tailwind CSS', 'Vite', 'Vercel', 'Responsive'],
+    highlights: [
+      'Responsive, mobile-first design',
+      'SEO optimization',
+      'Lead generation forms',
+      'Analytics integration',
+      'Travel package showcase',
+    ],
     badge: { text: 'Client Work', color: '#10b981' },
     links: {
       github: 'https://github.com/mukulcodezz/travel-web',
@@ -74,6 +102,12 @@ export const projects: Project[] = [
     description:
       'Where it all began — an NFT collection landing page. First real web build that kicked off the journey into shipping production-grade sites.',
     tags: ['JavaScript', 'HTML5', 'CSS3', 'Web3'],
+    highlights: [
+      'NFT collection landing page',
+      'Web3-themed UI',
+      'Responsive layout',
+      'Community launch support',
+    ],
     badge: null,
     links: { github: 'https://github.com/mukulcodezz/spring-nftttt' },
     accentColor: '#f59e0b',

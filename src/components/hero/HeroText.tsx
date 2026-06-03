@@ -62,8 +62,7 @@ export default function HeroText() {
         transition={{ delay: 0.3, duration: 0.6 }}
         className="text-base text-white/50 leading-relaxed"
       >
-        Building AI Agents, Automations & Websites That Help Businesses Grow.
-        Transforming ideas into scalable AI-powered systems.
+        Building AI Agents, Automation Systems, and Digital Experiences That Drive Business Growth.
       </motion.p>
 
       <motion.div

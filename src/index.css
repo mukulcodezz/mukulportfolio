@@ -114,6 +114,17 @@ body::before {
   }
 }
 
+/* GitHub contribution calendar — readable labels on dark bg */
+.react-activity-calendar__label,
+.react-activity-calendar text {
+  fill: rgba(255, 255, 255, 0.55) !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+}
+.react-activity-calendar__count,
+.react-activity-calendar__legend-colors {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
 /* Orbital timeline animations */
 @keyframes ping {
   75%, 100% { transform: scale(2); opacity: 0; }
