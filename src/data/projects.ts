@@ -13,6 +13,28 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    id: 'gympulse',
+    title: 'GymPulse',
+    description:
+      'WhatsApp automation bot that runs a gym\'s entire front desk — lead capture, trial booking, renewal reminders, check-in tracking, and win-back campaigns. No app install needed for members.',
+    tags: ['WhatsApp API', 'Automation', 'AI', 'SaaS', 'n8n'],
+    highlights: [
+      '24/7 automated lead capture & qualification',
+      'Free trial booking with slot availability',
+      '7-day & 1-day renewal reminders',
+      'Member check-in tracking via WhatsApp',
+      'Win-back campaigns for inactive members',
+      'Daily & weekly digest reports for staff',
+    ],
+    badge: { text: '🚀 Just Launched', color: '#f97316' },
+    links: {
+      live: 'https://gympulse-bot.vercel.app/',
+    },
+    accentColor: '#f97316',
+    emoji: '💪',
+    screenshot: '/screenshots/gympulse.png',
+  },
+  {
     id: 'anchor-mcp',
     title: 'Anchor Scaffold MCP',
     description:
