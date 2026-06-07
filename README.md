@@ -32,6 +32,7 @@ Full design-system overhaul. Every section rewritten. Summary of what landed:
 | **Contact** | Form labels above inputs (not placeholder-as-label). Contact info as a bordered list. |
 | **Footer** | Mono wordmark, 3 social icon buttons, copyright. No gradient text. |
 | **Floating Action Menu** | Fixed bottom-right `+` button — expands to GitHub, LinkedIn, Email social links. Framer Motion spring animation. |
+| **Neko Cat** | SVG cat mascot that follows the cursor. State machine: idle → walking → running → sleeping. Sleeps after 6s idle (ZZZ bubble), wakes on mouse move, flips to face direction of travel. |
 
 ### Removed
 - Custom cursor (`CustomCursor.tsx`) — accessibility hostile, perf cost
@@ -46,7 +47,7 @@ Full design-system overhaul. Every section rewritten. Summary of what landed:
 - Scroll cue ("Scroll ↓") in hero
 
 ### Performance
-- JS bundle: **443 kB** (gzip 142 kB)
+- JS bundle: **449 kB** (gzip 143 kB)
 - CSS: **47 kB** (gzip 8.7 kB)
 
 ---
