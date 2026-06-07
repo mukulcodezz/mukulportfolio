@@ -24,13 +24,14 @@ Full design-system overhaul. Every section rewritten. Summary of what landed:
 | **About** | Split layout: bio left, 6 capability tiles right. No profile card floaters. |
 | **Projects** | Cards numbered `01–06`. Mono tag pills. Removed per-card random accent colors, emojis, and gradient badges. Single accent on bullet dots. |
 | **Experience** | Date column + role column separated by hairlines. No glass cards. |
-| **Skills** | 2-col tile grid, mono tag chips, single accent icon. |
+| **Skills** | Replaced 2-col static grid with **RadialOrbitalTimeline** — 6 nodes orbiting a central core (AI Agents, Automation, GenAI Integrations, MCP Development, Full-Stack Web, APIs & Webhooks). Click any node to expand detail card with description, energy bar, and connected nodes. |
 | **Tech Stack** | Replaced 3 equal cards with a single grouped spec list (label row + mono chips). |
 | **GitHub Activity** | Recolored calendar to emerald theme. Total commits stat alongside headline. |
 | **Certifications** | Clean tiles, mono tags, consistent with skills layout. |
 | **Testimonials** | Blockquote + figcaption pattern. No floating quote icons, no random accents. |
 | **Contact** | Form labels above inputs (not placeholder-as-label). Contact info as a bordered list. |
 | **Footer** | Mono wordmark, 3 social icon buttons, copyright. No gradient text. |
+| **Floating Action Menu** | Fixed bottom-right `+` button — expands to GitHub, LinkedIn, Email social links. Framer Motion spring animation. |
 
 ### Removed
 - Custom cursor (`CustomCursor.tsx`) — accessibility hostile, perf cost
@@ -45,8 +46,8 @@ Full design-system overhaul. Every section rewritten. Summary of what landed:
 - Scroll cue ("Scroll ↓") in hero
 
 ### Performance
-- JS bundle: **422 kB** (gzip 135 kB) — same size as before, removed Three.js from critical path (lazy chunks)
-- CSS: **44 kB** (gzip 8.3 kB)
+- JS bundle: **443 kB** (gzip 142 kB)
+- CSS: **47 kB** (gzip 8.7 kB)
 
 ---
 
