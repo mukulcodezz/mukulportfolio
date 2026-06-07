@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Bot, Zap, Brain, Network, Code, Plug } from 'lucide-react'
 import SectionWrapper from '@/components/common/SectionWrapper'
 import { fadeUpVariant } from '@/lib/variants'
@@ -11,6 +11,35 @@ const capabilities = [
   { icon: Code, label: 'Full-Stack Web', desc: 'React, Vite, Tailwind. Production sites.' },
   { icon: Plug, label: 'APIs & Webhooks', desc: 'REST, OAuth, third-party platform glue.' },
 ]
+
+function CapabilityTile({ icon: Icon, label, desc }: typeof capabilities[0]) {
+  const shouldReduce = useReducedMotion()
+  return (
+    <motion.div
+      whileHover={
+        shouldReduce
+          ? undefined
+          : { y: -3, borderColor: 'rgba(255,255,255,0.14)' }
+      }
+      transition={{ type: 'spring', stiffness: 340, damping: 24 }}
+      className="surface p-5 flex flex-col gap-3 cursor-default group"
+    >
+      <motion.div
+        whileHover={shouldReduce ? undefined : { scale: 1.12, rotate: 6 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 18 }}
+        className="w-8 h-8 rounded-md bg-accent/10 flex items-center justify-center"
+      >
+        <Icon size={16} className="text-accent" strokeWidth={1.75} />
+      </motion.div>
+      <div>
+        <div className="text-sm font-medium text-text mb-1 group-hover:text-accent transition-colors duration-200">
+          {label}
+        </div>
+        <p className="text-xs text-text-muted leading-relaxed">{desc}</p>
+      </div>
+    </motion.div>
+  )
+}
 
 export default function About() {
   return (
@@ -36,17 +65,8 @@ export default function About() {
         </motion.div>
 
         <motion.div variants={fadeUpVariant} className="grid sm:grid-cols-2 gap-3">
-          {capabilities.map(({ icon: Icon, label, desc }) => (
-            <div
-              key={label}
-              className="surface p-5 flex flex-col gap-3 hover:border-line-strong transition-colors"
-            >
-              <Icon size={18} className="text-accent" strokeWidth={1.75} />
-              <div>
-                <div className="text-sm font-medium text-text mb-1">{label}</div>
-                <p className="text-xs text-text-muted leading-relaxed">{desc}</p>
-              </div>
-            </div>
+          {capabilities.map(({ icon, label, desc }) => (
+            <CapabilityTile key={label} icon={icon} label={label} desc={desc} />
           ))}
         </motion.div>
       </div>

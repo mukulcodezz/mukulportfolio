@@ -32,7 +32,7 @@ export default function GitHubActivity() {
   const combined = (liveTotal ?? 0) + LEGACY_COMMITS
 
   return (
-    <SectionWrapper id="activity">
+    <SectionWrapper id="activity" direction="right">
       <motion.div
         variants={fadeUpVariant}
         className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"

@@ -7,7 +7,7 @@ import { fadeUpVariant, staggerContainer } from '@/lib/variants'
 
 export default function Experience() {
   return (
-    <SectionWrapper id="experience">
+    <SectionWrapper id="experience" direction="left">
       <motion.div variants={fadeUpVariant} className="mb-12 max-w-2xl">
         <h2 className="text-3xl md:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-text">
           Experience.

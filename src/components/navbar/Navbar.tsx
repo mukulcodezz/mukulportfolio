@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { motion, AnimatePresence, useMotionValueEvent, useScroll } from 'framer-motion'
+import { motion, AnimatePresence, useMotionValueEvent, useScroll, useReducedMotion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 
 const navLinks = [
@@ -13,7 +13,9 @@ const navLinks = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [hovered, setHovered] = useState<string | null>(null)
   const { scrollY } = useScroll()
+  const shouldReduce = useReducedMotion()
 
   useMotionValueEvent(scrollY, 'change', (v) => setScrolled(v > 24))
 
@@ -41,23 +43,39 @@ export default function Navbar() {
             mukul<span className="text-accent">.</span>
           </a>
 
-          <ul className="hidden md:flex items-center gap-7">
+          <ul
+            className="hidden md:flex items-center gap-7"
+            onMouseLeave={() => setHovered(null)}
+          >
             {navLinks.map((link) => (
-              <li key={link.href}>
+              <li key={link.href} className="relative">
                 <button
                   onClick={() => scrollTo(link.href)}
-                  className="text-sm text-text-muted hover:text-text transition-colors"
+                  onMouseEnter={() => setHovered(link.href)}
+                  className="text-sm text-text-muted hover:text-text transition-colors py-1"
                 >
                   {link.label}
                 </button>
+                {hovered === link.href && !shouldReduce && (
+                  <motion.span
+                    layoutId="nav-underline"
+                    className="absolute -bottom-0.5 left-0 right-0 h-px bg-accent"
+                    transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                  />
+                )}
               </li>
             ))}
           </ul>
 
           <div className="hidden md:block">
-            <button onClick={() => scrollTo('#contact')} className="btn-ghost">
+            <motion.button
+              onClick={() => scrollTo('#contact')}
+              whileHover={shouldReduce ? undefined : { scale: 1.02 }}
+              whileTap={shouldReduce ? undefined : { scale: 0.97 }}
+              className="btn-ghost"
+            >
               Get in touch
-            </button>
+            </motion.button>
           </div>
 
           <button
@@ -73,24 +91,34 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-bg/95 backdrop-blur-xl flex flex-col items-center justify-center gap-6"
+            className="fixed inset-0 z-40 bg-bg/97 backdrop-blur-xl flex flex-col items-center justify-center gap-6"
           >
-            {navLinks.map((link) => (
-              <button
+            {navLinks.map((link, i) => (
+              <motion.button
                 key={link.href}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: i * 0.05 }}
                 onClick={() => scrollTo(link.href)}
                 className="text-2xl font-medium text-text"
               >
                 {link.label}
-              </button>
+              </motion.button>
             ))}
-            <button onClick={() => scrollTo('#contact')} className="btn-primary mt-4">
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.28 }}
+              onClick={() => scrollTo('#contact')}
+              className="btn-primary mt-4"
+            >
               Get in touch
-            </button>
+            </motion.button>
           </motion.div>
         )}
       </AnimatePresence>

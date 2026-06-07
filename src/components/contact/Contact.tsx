@@ -6,7 +6,7 @@ import { fadeUpVariant } from '@/lib/variants'
 
 export default function Contact() {
   return (
-    <SectionWrapper id="contact" className="relative overflow-hidden">
+    <SectionWrapper id="contact" className="relative overflow-hidden" direction="up">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
         <div className="w-[640px] h-[640px] rounded-full bg-accent/5 blur-[160px]" />
       </div>

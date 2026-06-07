@@ -1,3 +1,5 @@
+import CustomCursor from '@/components/common/CustomCursor'
+import ScrollProgress from '@/components/common/ScrollProgress'
 import Navbar from '@/components/navbar/Navbar'
 import Hero from '@/components/hero/Hero'
 import About from '@/components/about/About'
@@ -14,6 +16,8 @@ import Footer from '@/components/footer/Footer'
 export default function App() {
   return (
     <div className="bg-bg text-text font-sans overflow-x-hidden">
+      <CustomCursor />
+      <ScrollProgress />
       <Navbar />
       <main>
         <Hero />

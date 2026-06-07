@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion'
+import { useRef, useState } from 'react'
+import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight, Lock } from 'lucide-react'
 import type { Project } from '@/data/projects'
 
@@ -11,13 +12,71 @@ function GitHubIcon({ size = 13 }: { size?: number }) {
 }
 
 export default function ProjectCard({ project, index }: { project: Project; index: number }) {
+  const cardRef = useRef<HTMLElement>(null)
+  const spotRef = useRef<HTMLDivElement>(null)
+  const shouldReduce = useReducedMotion()
   const idx = String(index + 1).padStart(2, '0')
+
+  const rotateX = useMotionValue(0)
+  const rotateY = useMotionValue(0)
+  const springRotX = useSpring(rotateX, { stiffness: 220, damping: 28 })
+  const springRotY = useSpring(rotateY, { stiffness: 220, damping: 28 })
+
+  const [hovered, setHovered] = useState(false)
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    if (!cardRef.current || shouldReduce) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const px = e.clientX - rect.left
+    const py = e.clientY - rect.top
+    const nx = (px - rect.width / 2) / (rect.width / 2)
+    const ny = (py - rect.height / 2) / (rect.height / 2)
+
+    rotateX.set(-ny * 6)
+    rotateY.set(nx * 6)
+
+    if (spotRef.current) {
+      const pct_x = (px / rect.width) * 100
+      const pct_y = (py / rect.height) * 100
+      spotRef.current.style.background = `radial-gradient(220px circle at ${pct_x}% ${pct_y}%, rgba(16,185,129,0.09), transparent 80%)`
+    }
+  }
+
+  const handleMouseLeave = () => {
+    rotateX.set(0)
+    rotateY.set(0)
+    setHovered(false)
+  }
+
+  const handleMouseEnter = () => setHovered(true)
+
   return (
     <motion.article
-      whileHover={{ y: -3 }}
-      transition={{ type: 'spring', stiffness: 280, damping: 22 }}
-      className="surface flex flex-col overflow-hidden h-full group hover:border-line-strong transition-colors"
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      style={
+        shouldReduce
+          ? undefined
+          : {
+              rotateX: springRotX,
+              rotateY: springRotY,
+              transformPerspective: 900,
+            }
+      }
+      whileHover={shouldReduce ? undefined : { y: -5 }}
+      transition={{ type: 'spring', stiffness: 260, damping: 22 }}
+      className="relative surface flex flex-col overflow-hidden h-full group hover:border-line-strong transition-colors"
     >
+      {/* Spotlight */}
+      <div
+        ref={spotRef}
+        className="absolute inset-0 pointer-events-none z-10 rounded-[inherit] transition-opacity duration-300"
+        style={{ opacity: hovered ? 1 : 0 }}
+      />
+
+      {/* Image */}
       <div className="relative w-full aspect-[16/10] overflow-hidden bg-surface-2 border-b border-line">
         {project.screenshot ? (
           <img
@@ -26,42 +85,45 @@ export default function ProjectCard({ project, index }: { project: Project; inde
             width={640}
             height={400}
             loading="lazy"
-            className="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-700"
+            className="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700"
           />
         ) : (
           <div
             className="w-full h-full"
             style={{
               backgroundImage:
-                'linear-gradient(135deg, rgba(255,255,255,0.03), rgba(16,185,129,0.06)), radial-gradient(circle at 30% 30%, rgba(16,185,129,0.12), transparent 60%)',
+                'linear-gradient(135deg, rgba(255,255,255,0.02), rgba(16,185,129,0.05)), radial-gradient(circle at 30% 30%, rgba(16,185,129,0.1), transparent 60%)',
             }}
           />
         )}
-        <span className="absolute top-3 left-3 text-mono text-[10px] text-text-dim tracking-[0.18em]">
+        <span className="absolute top-3 left-3 text-mono text-[10px] text-text-dim tracking-[0.18em] select-none">
           {idx}
         </span>
         {project.badge && (
-          <span className="absolute top-3 right-3 text-mono text-[10px] px-2 py-1 rounded-full bg-bg/80 backdrop-blur border border-line-strong text-text">
+          <span className="absolute top-3 right-3 text-mono text-[10px] px-2 py-1 rounded-full bg-bg/80 backdrop-blur border border-accent/25 text-accent">
             {project.badge.text}
           </span>
         )}
       </div>
 
-      <div className="p-5 flex flex-col gap-4 flex-1">
+      {/* Body */}
+      <div className="p-5 flex flex-col gap-4 flex-1 relative z-20">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-[15px] font-semibold text-text leading-tight">
             {project.title}
           </h3>
           {project.links.live && (
-            <a
+            <motion.a
               href={project.links.live}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Visit ${project.title}`}
-              className="text-text-muted hover:text-accent transition-colors shrink-0"
+              whileHover={shouldReduce ? undefined : { scale: 1.15, color: '#10b981' }}
+              whileTap={shouldReduce ? undefined : { scale: 0.9 }}
+              className="text-text-muted shrink-0"
             >
               <ArrowUpRight size={16} />
-            </a>
+            </motion.a>
           )}
         </div>
 
@@ -82,12 +144,13 @@ export default function ProjectCard({ project, index }: { project: Project; inde
 
         <div className="flex flex-wrap gap-1.5 mt-auto pt-2">
           {project.tags.slice(0, 4).map((tag) => (
-            <span
+            <motion.span
               key={tag}
-              className="text-mono text-[10px] px-2 py-0.5 rounded border border-line text-text-muted"
+              whileHover={shouldReduce ? undefined : { scale: 1.06 }}
+              className="text-mono text-[10px] px-2 py-0.5 rounded border border-line text-text-muted hover:border-accent/30 hover:text-text transition-colors cursor-default"
             >
               {tag}
-            </span>
+            </motion.span>
           ))}
         </div>
 

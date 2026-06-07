@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion'
 import { Mail } from 'lucide-react'
 
 function GitHubIcon() {
@@ -37,16 +38,19 @@ export default function Footer() {
 
         <div className="flex items-center gap-2">
           {socials.map(({ Icon, href, label }) => (
-            <a
+            <motion.a
               key={label}
               href={href}
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="w-9 h-9 rounded-md border border-line flex items-center justify-center text-text-muted hover:text-text hover:border-line-strong transition-colors"
+              whileHover={{ y: -2, scale: 1.08 }}
+              whileTap={{ scale: 0.92 }}
+              transition={{ type: 'spring', stiffness: 380, damping: 22 }}
+              className="w-9 h-9 rounded-md border border-line flex items-center justify-center text-text-muted hover:text-accent hover:border-accent/30 transition-colors"
             >
               <Icon />
-            </a>
+            </motion.a>
           ))}
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Briefcase, ShieldCheck, Hexagon } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { experiences } from '@/data/experiences'
@@ -7,6 +7,7 @@ import { fadeUpVariant, staggerContainer } from '@/lib/variants'
 const iconMap: Record<string, LucideIcon> = { Briefcase, ShieldCheck, Hexagon }
 
 export default function WorkExperience() {
+  const shouldReduce = useReducedMotion()
   return (
     <motion.div variants={staggerContainer} className="flex flex-col">
       {experiences.map((exp, i) => {
@@ -16,6 +17,8 @@ export default function WorkExperience() {
           <motion.div
             key={exp.company}
             variants={fadeUpVariant}
+            whileHover={shouldReduce ? undefined : { x: 4 }}
+            transition={{ type: 'spring', stiffness: 300, damping: 24 }}
             className={`grid grid-cols-[auto_1fr] md:grid-cols-[180px_1fr] gap-4 md:gap-10 py-7 ${
               isLast ? '' : 'border-b border-line'
             }`}
