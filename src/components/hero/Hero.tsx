@@ -149,6 +149,7 @@ export default function Hero() {
 
           {/* Right: status panel */}
           <motion.aside
+            id="hero-status"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
