@@ -29,7 +29,7 @@ export const timelineData: TimelineItem[] = [
     id: 2,
     title: 'First AI Project',
     date: 'Mid 2023',
-    content: 'Built first AI automation project — a workflow automation system integrating multiple APIs. Discovered passion for GenAI and agentic systems.',
+    content: 'Built first AI automation project: a workflow automation system integrating multiple APIs. Discovered passion for GenAI and agentic systems.',
     category: 'Development',
     icon: Code,
     relatedIds: [1, 3],

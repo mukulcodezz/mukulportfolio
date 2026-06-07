@@ -4,57 +4,28 @@ export default {
   theme: {
     extend: {
       colors: {
-        'bg-primary': '#060611',
-        'bg-secondary': '#0d0d1f',
-        'brand-purple': '#7c3aed',
-        'brand-cyan': '#06b6d4',
-        'brand-pink': '#ec4899',
-        border: 'hsl(var(--border))',
-        input: 'hsl(var(--input))',
-        ring: 'hsl(var(--ring))',
-        background: 'hsl(var(--background))',
-        foreground: 'hsl(var(--foreground))',
-        primary: {
-          DEFAULT: 'hsl(var(--primary))',
-          foreground: 'hsl(var(--primary-foreground))',
-        },
-        secondary: {
-          DEFAULT: 'hsl(var(--secondary))',
-          foreground: 'hsl(var(--secondary-foreground))',
-        },
-        destructive: {
-          DEFAULT: 'hsl(var(--destructive))',
-          foreground: 'hsl(var(--destructive-foreground))',
-        },
-        muted: {
-          DEFAULT: 'hsl(var(--muted))',
-          foreground: 'hsl(var(--muted-foreground))',
-        },
-        accent: {
-          DEFAULT: 'hsl(var(--accent))',
-          foreground: 'hsl(var(--accent-foreground))',
-        },
-        card: {
-          DEFAULT: 'hsl(var(--card))',
-          foreground: 'hsl(var(--card-foreground))',
-        },
+        bg: '#0a0a0a',
+        surface: '#111111',
+        'surface-2': '#161616',
+        line: 'rgba(255,255,255,0.07)',
+        'line-strong': 'rgba(255,255,255,0.12)',
+        text: '#ededed',
+        'text-muted': '#8a8a8a',
+        'text-dim': '#5a5a5a',
+        accent: '#10b981',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
+        sans: ['Geist', 'system-ui', '-apple-system', 'sans-serif'],
+        mono: ['Geist Mono', 'ui-monospace', 'monospace'],
       },
       keyframes: {
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-20px)' },
-        },
-        'pulse-slow': {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.5' },
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
       },
       animation: {
-        float: 'float 6s ease-in-out infinite',
-        'pulse-slow': 'pulse-slow 4s ease-in-out infinite',
+        marquee: 'marquee 40s linear infinite',
       },
     },
   },

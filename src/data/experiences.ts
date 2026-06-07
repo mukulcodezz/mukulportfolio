@@ -11,7 +11,7 @@ export const experiences: Experience[] = [
   {
     role: 'AI Automation Engineer & Web Developer',
     company: 'Shalom Tours & Travels',
-    duration: '2024 — Present',
+    duration: '2024 - Present',
     iconName: 'Briefcase',
     accent: '#10b981',
     bullets: [

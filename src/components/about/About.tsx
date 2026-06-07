@@ -1,59 +1,53 @@
 import { motion } from 'framer-motion'
-import { Bot, Zap, Code, Plug, Brain, Network } from 'lucide-react'
+import { Bot, Zap, Brain, Network, Code, Plug } from 'lucide-react'
 import SectionWrapper from '@/components/common/SectionWrapper'
-import ProfileCard from './ProfileCard'
-import { slideInLeft, slideInRight } from '@/lib/variants'
+import { fadeUpVariant } from '@/lib/variants'
 
-const highlights = [
-  { icon: Bot, label: 'AI Agents' },
-  { icon: Zap, label: 'Workflow Automation' },
-  { icon: Brain, label: 'Claude & Gemini Integrations' },
-  { icon: Network, label: 'MCP Development' },
-  { icon: Code, label: 'Business Websites' },
-  { icon: Plug, label: 'API Integrations' },
+const capabilities = [
+  { icon: Bot, label: 'AI Agents', desc: 'Claude + tool-calling, MCP servers, agentic workflows.' },
+  { icon: Zap, label: 'Automation', desc: 'n8n, Make, Zapier. Lead capture, ops, reporting.' },
+  { icon: Brain, label: 'GenAI Integrations', desc: 'Claude, GPT-4, Gemini wired into real products.' },
+  { icon: Network, label: 'MCP Development', desc: 'Custom MCP servers + Claude Agent Skills.' },
+  { icon: Code, label: 'Full-Stack Web', desc: 'React, Vite, Tailwind. Production sites.' },
+  { icon: Plug, label: 'APIs & Webhooks', desc: 'REST, OAuth, third-party platform glue.' },
 ]
 
 export default function About() {
   return (
-    <SectionWrapper id="about" className="bg-[#0d0d1f]">
-      <div className="grid lg:grid-cols-2 gap-16 items-center">
-        <motion.div variants={slideInLeft} className="hidden lg:block">
-          <ProfileCard />
+    <SectionWrapper id="about">
+      <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-20">
+        <motion.div variants={fadeUpVariant} className="flex flex-col gap-6">
+          <span className="eyebrow">About</span>
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-text">
+            B.Tech AI engineer shipping production agents and automation for paying clients.
+          </h2>
+          <div className="flex flex-col gap-4 text-text-muted leading-relaxed max-w-[55ch]">
+            <p>
+              I study at ITS Engineering College (AKTU), but the bulk of my work
+              lives outside the classroom. I build for a travel company in India,
+              a private contract for an Italy-based org, and an NFT studio.
+            </p>
+            <p>
+              Most of my time goes into AI agents, MCP servers, Claude Agent
+              Skills, and the workflows that quietly run businesses. I care
+              about systems that ship, not demos.
+            </p>
+          </div>
         </motion.div>
 
-        <motion.div variants={slideInRight} className="flex flex-col gap-6">
-          <div>
-            <span className="section-label">About Me</span>
-            <h2 className="text-4xl font-black tracking-tight leading-tight mt-2">
-              Building AI Solutions <br />
-              That <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Actually Work</span>
-            </h2>
-          </div>
-
-          <p className="text-white/60 leading-relaxed">
-            I'm a B.Tech student at ITS Engineering College (AKTU) specializing in AI Automation, Generative AI, and Web Development. I build practical solutions that solve real business problems.
-          </p>
-          <p className="text-white/60 leading-relaxed">
-            My experience spans AI Agents, workflow automation, Claude &amp; Gemini integrations, MCP development, business websites, lead generation systems, and API integrations.
-          </p>
-          <p className="text-white/60 leading-relaxed">
-            I've worked with travel companies, NFT projects, international organizations, and AI-powered applications.
-          </p>
-
-          <div className="grid grid-cols-2 gap-3 mt-2">
-            {highlights.map(({ icon: Icon, label }) => (
-              <motion.div
-                key={label}
-                whileHover={{ x: 4 }}
-                className="flex items-center gap-3 text-sm text-white/60 font-medium"
-              >
-                <div className="w-8 h-8 rounded-lg bg-[#7c3aed]/15 flex items-center justify-center flex-shrink-0">
-                  <Icon size={15} className="text-violet-400" />
-                </div>
-                {label}
-              </motion.div>
-            ))}
-          </div>
+        <motion.div variants={fadeUpVariant} className="grid sm:grid-cols-2 gap-3">
+          {capabilities.map(({ icon: Icon, label, desc }) => (
+            <div
+              key={label}
+              className="surface p-5 flex flex-col gap-3 hover:border-line-strong transition-colors"
+            >
+              <Icon size={18} className="text-accent" strokeWidth={1.75} />
+              <div>
+                <div className="text-sm font-medium text-text mb-1">{label}</div>
+                <p className="text-xs text-text-muted leading-relaxed">{desc}</p>
+              </div>
+            </div>
+          ))}
         </motion.div>
       </div>
     </SectionWrapper>

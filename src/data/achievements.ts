@@ -9,7 +9,7 @@ export const achievements: Achievement[] = [
   {
     iconName: 'Trophy',
     title: 'College Hackathon Winner',
-    description: '1st place — Built WhatsApp Attendance Bot in 24 hours',
+    description: '1st place. Built WhatsApp Attendance Bot in 24 hours.',
     color: '#fbbf24',
   },
   {

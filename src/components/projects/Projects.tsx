@@ -6,18 +6,37 @@ import { fadeUpVariant, staggerContainer } from '@/lib/variants'
 
 export default function Projects() {
   return (
-    <SectionWrapper id="projects" className="bg-[#0d0d1f]">
-      <motion.div variants={fadeUpVariant} className="mb-12">
-        <span className="section-label">Featured Work</span>
-        <h2 className="text-4xl font-black tracking-tight mt-2">
-          Projects That <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Make an Impact</span>
-        </h2>
-        <p className="text-white/50 mt-3 max-w-md">Real-world AI solutions built to solve actual business problems.</p>
+    <SectionWrapper id="projects">
+      <motion.div
+        variants={fadeUpVariant}
+        className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14"
+      >
+        <div className="flex flex-col gap-4 max-w-2xl">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-text">
+            Selected work.
+          </h2>
+          <p className="text-text-muted text-base leading-relaxed max-w-[55ch]">
+            Six projects shipped for real users. Agents, automation, full client
+            sites, an MCP server, a hackathon win.
+          </p>
+        </div>
+        <a
+          href="https://github.com/mukulcodezz"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-mono text-xs text-text-muted hover:text-text transition-colors"
+        >
+          github.com/mukulcodezz →
+        </a>
       </motion.div>
-      <motion.div variants={staggerContainer} className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {projects.map((project) => (
+
+      <motion.div
+        variants={staggerContainer}
+        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
+      >
+        {projects.map((project, idx) => (
           <motion.div key={project.id} variants={fadeUpVariant}>
-            <ProjectCard project={project} />
+            <ProjectCard project={project} index={idx} />
           </motion.div>
         ))}
       </motion.div>

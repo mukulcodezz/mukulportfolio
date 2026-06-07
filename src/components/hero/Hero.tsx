@@ -1,46 +1,123 @@
 import { motion } from 'framer-motion'
-import { lazy, Suspense } from 'react'
-import { useHeroParallax } from '@/hooks/useHeroParallax'
-import HeroText from './HeroText'
+import { ArrowRight, Download } from 'lucide-react'
 import HeroStats from './HeroStats'
-import ShaderBackground from './ShaderBackground'
 
-const NeuralMesh = lazy(() => import('./NeuralMesh'))
+const scrollTo = (href: string) => {
+  const el = document.querySelector(href)
+  if (el) el.scrollIntoView({ behavior: 'smooth' })
+}
 
 export default function Hero() {
-  const { orb1Y, orb2Y, orb3Y } = useHeroParallax()
-
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden bg-[#060611]">
-      <ShaderBackground />
-
-      {/* Orbs */}
-      <motion.div style={{ y: orb1Y }} className="absolute top-20 right-10 w-96 h-96 rounded-full bg-[#7c3aed]/20 blur-[120px] pointer-events-none" />
-      <motion.div style={{ y: orb2Y }} className="absolute bottom-20 left-0 w-72 h-72 rounded-full bg-[#06b6d4]/15 blur-[100px] pointer-events-none" />
-      <motion.div style={{ y: orb3Y }} className="absolute top-1/2 left-1/3 w-48 h-48 rounded-full bg-[#ec4899]/10 blur-[80px] pointer-events-none" />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-20 pb-16 w-full grid lg:grid-cols-2 gap-12 items-center">
-        <div className="flex flex-col gap-8">
-          <HeroText />
-          <HeroStats />
-        </div>
-        <div className="hidden lg:flex items-center justify-center">
-          <Suspense fallback={<div className="w-96 h-96 rounded-full border border-[#7c3aed]/20 animate-pulse" />}>
-            <NeuralMesh />
-          </Suspense>
-        </div>
+    <section
+      id="hero"
+      className="relative min-h-[100dvh] flex items-center overflow-hidden bg-bg"
+    >
+      {/* Ambient backdrop: single soft glow + grid */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div
+          className="absolute inset-0 opacity-[0.35]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px)',
+            backgroundSize: '48px 48px',
+            maskImage:
+              'radial-gradient(ellipse at 50% 30%, #000 30%, transparent 75%)',
+            WebkitMaskImage:
+              'radial-gradient(ellipse at 50% 30%, #000 30%, transparent 75%)',
+          }}
+        />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] rounded-full bg-accent/10 blur-[140px]" />
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-white/30 text-xs tracking-widest uppercase">
-        <div className="w-5 h-8 rounded-full border border-white/20 flex justify-center pt-1.5">
-          <motion.div
-            animate={{ y: [0, 8, 0], opacity: [1, 0, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-0.5 h-2 bg-[#06b6d4] rounded-full"
-          />
+      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-28 pb-20 w-full">
+        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-16 items-end">
+          {/* Left: type */}
+          <div className="flex flex-col gap-7 max-w-2xl">
+            <motion.span
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="eyebrow"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+              Available for AI / Automation work
+            </motion.span>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+              className="text-[clamp(2.5rem,6vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.035em] text-text"
+            >
+              I build AI agents and automation that ship to production.
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="text-base md:text-lg text-text-muted leading-relaxed max-w-[58ch]"
+            >
+              Mukul Gupta. AI Automation & GenAI engineer building Claude/MCP
+              agents, n8n workflows, and full-stack web products for real clients.
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="flex flex-wrap items-center gap-3 pt-2"
+            >
+              <button onClick={() => scrollTo('#projects')} className="btn-primary group">
+                View work
+                <ArrowRight size={15} className="group-hover:translate-x-0.5 transition-transform" />
+              </button>
+              <a href="/resume.pdf" download className="btn-ghost">
+                <Download size={15} />
+                Resume
+              </a>
+            </motion.div>
+          </div>
+
+          {/* Right: status panel */}
+          <motion.aside
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.65 }}
+            className="surface p-6 text-mono text-[13px] text-text-muted leading-relaxed self-end"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <span className="text-text-dim uppercase tracking-[0.18em] text-[10px]">
+                Status
+              </span>
+              <span className="flex items-center gap-1.5 text-accent text-[11px]">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                shipping
+              </span>
+            </div>
+            <ul className="flex flex-col gap-2.5">
+              <li className="flex justify-between">
+                <span className="text-text-dim">role</span>
+                <span className="text-text">AI / Automation eng</span>
+              </li>
+              <li className="flex justify-between">
+                <span className="text-text-dim">based</span>
+                <span className="text-text">India, remote</span>
+              </li>
+              <li className="flex justify-between">
+                <span className="text-text-dim">stack</span>
+                <span className="text-text">Claude · MCP · n8n · React</span>
+              </li>
+              <li className="flex justify-between">
+                <span className="text-text-dim">open to</span>
+                <span className="text-text">FT roles + contract</span>
+              </li>
+            </ul>
+          </motion.aside>
         </div>
-        Scroll
+
+        <HeroStats />
       </div>
     </section>
   )

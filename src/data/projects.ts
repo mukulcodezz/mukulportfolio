@@ -16,7 +16,7 @@ export const projects: Project[] = [
     id: 'gympulse',
     title: 'GymPulse',
     description:
-      'WhatsApp automation bot that runs a gym\'s entire front desk — lead capture, trial booking, renewal reminders, check-in tracking, and win-back campaigns. No app install needed for members.',
+      'WhatsApp automation bot that runs a gym\'s entire front desk: lead capture, trial booking, renewal reminders, check-in tracking, and win-back campaigns. No app install needed for members.',
     tags: ['WhatsApp API', 'Automation', 'AI', 'SaaS', 'n8n'],
     highlights: [
       '24/7 automated lead capture & qualification',
@@ -26,7 +26,7 @@ export const projects: Project[] = [
       'Win-back campaigns for inactive members',
       'Daily & weekly digest reports for staff',
     ],
-    badge: { text: '🚀 Just Launched', color: '#f97316' },
+    badge: { text: 'New', color: '#10b981' },
     links: {
       live: 'https://gympulse-bot.vercel.app/',
     },
@@ -60,7 +60,7 @@ export const projects: Project[] = [
     id: 'whatsapp-bot',
     title: 'AI WhatsApp Attendance Bot',
     description:
-      'AI-powered WhatsApp bot that automates attendance tracking and reporting. Won 1st place at the college hackathon — built in 24 hours.',
+      'AI-powered WhatsApp bot that automates attendance tracking and reporting. Won 1st place at the college hackathon, built in 24 hours.',
     tags: ['Python', 'WhatsApp API', 'AI', 'Automation', 'n8n'],
     highlights: [
       'Automated attendance tracking',
@@ -68,7 +68,7 @@ export const projects: Project[] = [
       'Real-time reporting',
       'Cut manual effort by 90%',
     ],
-    badge: { text: '🏆 Hackathon Winner', color: '#ec4899' },
+    badge: { text: 'Hackathon winner', color: '#10b981' },
     links: { github: 'https://github.com/mukulcodezz' },
     accentColor: '#ec4899',
     emoji: '💬',
@@ -100,7 +100,7 @@ export const projects: Project[] = [
     id: 'shalom-travel',
     title: 'Shalom Tours & Travels Website',
     description:
-      'Official website for a travel and corporate travel management company — designed and developed end-to-end.',
+      'Official website for a travel and corporate travel management company. Designed and developed end-to-end.',
     tags: ['React', 'Tailwind CSS', 'Vite', 'Vercel', 'Responsive'],
     highlights: [
       'Responsive, mobile-first design',
@@ -122,7 +122,7 @@ export const projects: Project[] = [
     id: 'nft-spring',
     title: 'Spring NFT Landing',
     description:
-      'Where it all began — an NFT collection landing page. First real web build that kicked off the journey into shipping production-grade sites.',
+      'Where it all began. An NFT collection landing page that kicked off the journey into shipping production-grade sites.',
     tags: ['JavaScript', 'HTML5', 'CSS3', 'Web3'],
     highlights: [
       'NFT collection landing page',

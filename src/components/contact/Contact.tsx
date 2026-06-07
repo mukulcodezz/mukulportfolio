@@ -7,30 +7,27 @@ import { fadeUpVariant } from '@/lib/variants'
 export default function Contact() {
   return (
     <SectionWrapper id="contact" className="relative overflow-hidden">
-      {/* Background glow */}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[600px] h-[600px] rounded-full bg-[#7c3aed]/8 blur-[120px]" />
+        <div className="w-[640px] h-[640px] rounded-full bg-accent/5 blur-[160px]" />
       </div>
 
-      <div className="relative">
-        <motion.div variants={fadeUpVariant} className="text-center mb-12">
-          <span className="section-label justify-center">Get in Touch</span>
-          <h2 className="text-4xl font-black tracking-tight mt-2">
-            Let's Build Something <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Amazing</span>
-          </h2>
-          <p className="text-white/50 mt-3 max-w-md mx-auto">
-            Have a project in mind? Let's talk about how AI automation can transform your business.
-          </p>
+      <div className="relative grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-20">
+        <motion.div variants={fadeUpVariant} className="flex flex-col gap-8">
+          <div>
+            <h2 className="text-3xl md:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-text">
+              Let&rsquo;s work together.
+            </h2>
+            <p className="text-text-muted mt-4 leading-relaxed max-w-[45ch]">
+              Hiring for an AI / automation role, or have a build in mind?
+              Drop a line. I reply within 24 hours.
+            </p>
+          </div>
+          <ContactInfoCards />
         </motion.div>
 
-        <div className="grid lg:grid-cols-2 gap-8">
-          <motion.div variants={fadeUpVariant}>
-            <ContactInfoCards />
-          </motion.div>
-          <motion.div variants={fadeUpVariant}>
-            <ContactForm />
-          </motion.div>
-        </div>
+        <motion.div variants={fadeUpVariant}>
+          <ContactForm />
+        </motion.div>
       </div>
     </SectionWrapper>
   )

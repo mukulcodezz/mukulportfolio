@@ -1,15 +1,15 @@
 import { useEffect, useState, cloneElement } from 'react'
 import { motion } from 'framer-motion'
 import { GitHubCalendar } from 'react-github-calendar'
+import { ArrowUpRight } from 'lucide-react'
 import SectionWrapper from '@/components/common/SectionWrapper'
 import { fadeUpVariant } from '@/lib/variants'
 
 const USERNAME = 'mukulcodezz'
-// Commits from a previous GitHub account, not reflected in the live graph below.
 const LEGACY_COMMITS = 438
 
 const calendarTheme = {
-  dark: ['#1b1b2f', '#3b2f63', '#5b3fa8', '#7c3aed', '#a78bfa'],
+  dark: ['#161616', '#0d3d2f', '#0e5a3f', '#10b981', '#34d399'],
 }
 
 export default function GitHubActivity() {
@@ -32,36 +32,43 @@ export default function GitHubActivity() {
   const combined = (liveTotal ?? 0) + LEGACY_COMMITS
 
   return (
-    <SectionWrapper id="activity" className="bg-[#0d0d1f]">
-      <motion.div variants={fadeUpVariant} className="text-center mb-10">
-        <span className="section-label justify-center">Live Activity</span>
-        <h2 className="text-4xl font-black tracking-tight mt-2">
-          GitHub <span className="bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent">Contributions</span>
-        </h2>
-        <p className="text-white/50 mt-3 max-w-md mx-auto">
-          A live snapshot of what I'm shipping — updated straight from GitHub.
-        </p>
-      </motion.div>
-
-      {/* Combined total */}
-      <motion.div variants={fadeUpVariant} className="flex justify-center mb-10">
-        <div className="glass rounded-2xl px-8 py-5 text-center">
-          <div className="text-4xl font-black bg-gradient-to-r from-violet-400 to-cyan-400 bg-clip-text text-transparent leading-none">
-            {combined.toLocaleString()}+
+    <SectionWrapper id="activity">
+      <motion.div
+        variants={fadeUpVariant}
+        className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10"
+      >
+        <div className="max-w-xl">
+          <h2 className="text-3xl md:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-text">
+            Activity.
+          </h2>
+          <p className="text-text-muted mt-4 leading-relaxed">
+            Live GitHub contributions. Updated direct from the source.
+          </p>
+        </div>
+        <div className="flex items-center gap-8">
+          <div>
+            <div className="text-3xl md:text-4xl font-semibold text-text leading-none tracking-tight">
+              {combined.toLocaleString()}
+              <span className="text-accent">+</span>
+            </div>
+            <div className="text-mono text-[11px] text-text-muted uppercase tracking-[0.14em] mt-1.5">
+              Total commits
+            </div>
           </div>
-          <div className="text-xs text-white/45 mt-2 font-medium uppercase tracking-wider">
-            Total Commits
-          </div>
-          <div className="text-[11px] text-white/30 mt-1">
-            incl. {LEGACY_COMMITS} from a previous account
-          </div>
+          <a
+            href={`https://github.com/${USERNAME}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden md:inline-flex items-center gap-1 text-mono text-xs text-text-muted hover:text-text transition-colors"
+          >
+            @{USERNAME} <ArrowUpRight size={12} />
+          </a>
         </div>
       </motion.div>
 
-      {/* Live heatmap */}
       <motion.div
         variants={fadeUpVariant}
-        className="glass rounded-2xl p-6 overflow-x-auto flex justify-center"
+        className="surface p-6 overflow-x-auto flex justify-center"
       >
         <GitHubCalendar
           username={USERNAME}
@@ -69,7 +76,7 @@ export default function GitHubActivity() {
           theme={calendarTheme}
           blockSize={12}
           blockMargin={4}
-          fontSize={13}
+          fontSize={12}
           renderBlock={(block, activity) =>
             cloneElement(block, {
               title: `${activity.count} contribution${activity.count === 1 ? '' : 's'} on ${activity.date}`,
@@ -78,15 +85,12 @@ export default function GitHubActivity() {
         />
       </motion.div>
 
-      <motion.a
+      <motion.p
         variants={fadeUpVariant}
-        href={`https://github.com/${USERNAME}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="block text-center text-xs text-white/40 hover:text-white/70 transition-colors mt-5"
+        className="text-mono text-[11px] text-text-dim mt-4"
       >
-        View full profile on GitHub →
-      </motion.a>
+        +{LEGACY_COMMITS} from previous account, not shown above.
+      </motion.p>
     </SectionWrapper>
   )
 }
