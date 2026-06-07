@@ -6,10 +6,9 @@ type CatState = 'idle' | 'walking' | 'running' | 'sleeping' | 'awaking'
 const SCALE = 4
 const WALK_SPEED = 2.5
 const RUN_SPEED = 7
-const STOP_DIST = 48
-const SLEEP_AFTER = 6000
+const STOP_DIST = 16
+const MIN_TRAVEL_DIST = 80
 
-// 0=transparent 1=dark-outline 2=cream-body 3=pink 4=eye-black
 const PAL: Record<number, string> = {
   1: '#2d2926',
   2: '#f5e0b5',
@@ -38,7 +37,6 @@ const IDLE: Px = [
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
 ]
 
-// idle tail wag variant
 const IDLE2: Px = [
   [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
   [0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0],
@@ -155,44 +153,92 @@ function drawSprite(canvas: HTMLCanvasElement, sprite: Px, flip: boolean) {
   })
 }
 
-function getStatusBoxPos() {
-  const el = document.getElementById('hero-status')
-  if (!el) return { x: window.innerWidth / 2, y: window.innerHeight / 2 }
-  const r = el.getBoundingClientRect()
-  return {
-    x: Math.round(r.left + r.width / 2),
-    y: Math.round(r.top - 8), // sit just above top edge
+function getViewportSpots(currentPos: { x: number; y: number }): Array<{ x: number; y: number }> {
+  const spots: Array<{ x: number; y: number }> = []
+  const vh = window.innerHeight
+  const vw = window.innerWidth
+  const seen = new Set<string>()
+
+  const selectors = [
+    'section',
+    'nav',
+    'header',
+    'footer',
+    '[id]',
+    '[class*="card"]',
+    '[class*="Card"]',
+    '[class*="panel"]',
+    '[class*="box"]',
+    '[class*="Box"]',
+  ]
+
+  selectors.forEach(sel => {
+    try {
+      document.querySelectorAll(sel).forEach(el => {
+        const r = el.getBoundingClientRect()
+        if (r.width < 40 || r.height < 40) return
+        if (r.bottom < 0 || r.top > vh) return
+
+        const key = `${Math.round(r.left / 40)},${Math.round(r.top / 40)}`
+        if (seen.has(key)) return
+        seen.add(key)
+
+        // Sit on top edge
+        spots.push({
+          x: r.left + r.width * (0.2 + Math.random() * 0.6),
+          y: r.top + 4,
+        })
+
+        // Sit on bottom edge for tall elements
+        if (r.height > 100) {
+          spots.push({
+            x: r.left + r.width * (0.2 + Math.random() * 0.6),
+            y: r.bottom - 4,
+          })
+        }
+      })
+    } catch (_) {
+      // ignore selector errors
+    }
+  })
+
+  // Add random viewport spots as fallback wandering
+  for (let i = 0; i < 4; i++) {
+    spots.push({
+      x: vw * (0.08 + Math.random() * 0.84),
+      y: vh * (0.1 + Math.random() * 0.8),
+    })
   }
+
+  // Filter out spots too close to current position
+  const far = spots.filter(s => {
+    const dx = s.x - currentPos.x
+    const dy = s.y - currentPos.y
+    return Math.sqrt(dx * dx + dy * dy) >= MIN_TRAVEL_DIST
+  })
+
+  return far.length > 0 ? far : spots
 }
 
 export default function NekoCat() {
-  const initPos = getStatusBoxPos()
-  const posRef = useRef(initPos)
-  const targetRef = useRef(initPos)
+  const startPos = { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+
+  const posRef = useRef({ ...startPos })
+  const targetRef = useRef({ ...startPos })
   const stateRef = useRef<CatState>('idle')
-  const lastMoveRef = useRef(Date.now())
   const dirXRef = useRef(1)
   const rafRef = useRef(0)
   const lastTickRef = useRef(0)
   const frameIdxRef = useRef(0)
   const canvasRef = useRef<HTMLCanvasElement>(null)
+  const behaviorTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const idleScheduledRef = useRef(false)
 
-  const [pos, setPos] = useState(initPos)
+  const [pos, setPos] = useState(startPos)
   const [catState, setCatState] = useState<CatState>('idle')
   const [sleeping, setSleeping] = useState(false)
 
-  // Re-snap to status box after hero animates in (delay matches hero animation)
-  useEffect(() => {
-    const t = setTimeout(() => {
-      const p = getStatusBoxPos()
-      posRef.current = p
-      targetRef.current = p
-      setPos(p)
-    }, 1000)
-    return () => clearTimeout(t)
-  }, [])
-
-  // Redraw canvas whenever frame changes
+  // Redraw canvas on every render
   useEffect(() => {
     const canvas = canvasRef.current
     if (!canvas) return
@@ -202,58 +248,108 @@ export default function NekoCat() {
   })
 
   useEffect(() => {
-    const onMove = (e: MouseEvent) => {
-      targetRef.current = { x: e.clientX, y: e.clientY }
-      lastMoveRef.current = Date.now()
-      if (stateRef.current === 'sleeping') {
-        stateRef.current = 'awaking'
-        setSleeping(false)
-        setTimeout(() => {
-          if (stateRef.current === 'awaking') stateRef.current = 'idle'
-        }, 900)
+    function pickNext() {
+      const spots = getViewportSpots(posRef.current)
+      if (spots.length > 0) {
+        targetRef.current = spots[Math.floor(Math.random() * spots.length)]
+        idleScheduledRef.current = false
       }
     }
-    window.addEventListener('mousemove', onMove)
-    return () => window.removeEventListener('mousemove', onMove)
-  }, [])
 
-  useEffect(() => {
+    function scheduleBehavior() {
+      if (behaviorTimerRef.current) clearTimeout(behaviorTimerRef.current)
+
+      const idleMs = 2000 + Math.random() * 5000
+      const shouldSleep = Math.random() < 0.3
+
+      behaviorTimerRef.current = setTimeout(() => {
+        if (shouldSleep) {
+          stateRef.current = 'sleeping'
+          setSleeping(true)
+
+          const sleepMs = 3500 + Math.random() * 6000
+          behaviorTimerRef.current = setTimeout(() => {
+            stateRef.current = 'awaking'
+            setSleeping(false)
+
+            behaviorTimerRef.current = setTimeout(() => {
+              pickNext()
+              stateRef.current = 'walking'
+            }, 900)
+          }, sleepMs)
+        } else {
+          pickNext()
+        }
+      }, idleMs)
+    }
+
+    // Snap to hero status box, then start wandering
+    const snapTimer = setTimeout(() => {
+      const el = document.getElementById('hero-status')
+      if (el) {
+        const r = el.getBoundingClientRect()
+        const p = { x: Math.round(r.left + r.width / 2), y: Math.round(r.top - 8) }
+        posRef.current = p
+        targetRef.current = p
+        setPos(p)
+      }
+      scheduleBehavior()
+    }, 1500)
+
     const tick = (time: number) => {
       rafRef.current = requestAnimationFrame(tick)
       const interval = stateRef.current === 'running' ? 80 : 160
       if (time - lastTickRef.current < interval) return
       lastTickRef.current = time
 
+      const state = stateRef.current
+
+      // Sleeping/awaking: just animate, timers handle transitions
+      if (state === 'sleeping' || state === 'awaking') {
+        frameIdxRef.current++
+        setCatState(state)
+        return
+      }
+
       const p = posRef.current
       const t = targetRef.current
       const dx = t.x - p.x
       const dy = t.y - p.y
       const dist = Math.sqrt(dx * dx + dy * dy)
-      const timedOut = Date.now() - lastMoveRef.current > SLEEP_AFTER
 
-      let next = stateRef.current
+      let next: CatState
 
-      if (next !== 'sleeping' && next !== 'awaking') {
-        if (dist < STOP_DIST) {
-          next = timedOut ? 'sleeping' : 'idle'
-        } else {
-          const speed = dist > 160 ? RUN_SPEED : WALK_SPEED
-          next = dist > 160 ? 'running' : 'walking'
-          p.x += (dx / dist) * speed
-          p.y += (dy / dist) * speed
-          if (Math.abs(dx) > 1) dirXRef.current = dx > 0 ? 1 : -1
+      if (dist < STOP_DIST) {
+        next = 'idle'
+        stateRef.current = next
+        // Schedule behavior only once per stop
+        if (!idleScheduledRef.current) {
+          idleScheduledRef.current = true
+          scheduleBehavior()
         }
+      } else {
+        idleScheduledRef.current = false
+        const speed = dist > 160 ? RUN_SPEED : WALK_SPEED
+        next = dist > 160 ? 'running' : 'walking'
+        p.x += (dx / dist) * speed
+        p.y += (dy / dist) * speed
+        if (Math.abs(dx) > 1) dirXRef.current = dx > 0 ? 1 : -1
         stateRef.current = next
       }
 
       frameIdxRef.current++
-      setSleeping(next === 'sleeping')
+      setSleeping(false)
       setCatState(next)
       setPos({ x: p.x, y: p.y })
     }
 
     rafRef.current = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(rafRef.current)
+
+    return () => {
+      cancelAnimationFrame(rafRef.current)
+      clearTimeout(snapTimer)
+      if (behaviorTimerRef.current) clearTimeout(behaviorTimerRef.current)
+    }
   }, [])
 
   const size = 16 * SCALE
