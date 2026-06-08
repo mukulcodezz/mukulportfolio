@@ -2,8 +2,6 @@ import { lazy, Suspense } from 'react'
 import { Mail } from 'lucide-react'
 import CustomCursor from '@/components/common/CustomCursor'
 import ScrollProgress from '@/components/common/ScrollProgress'
-import WelcomeScreen from '@/components/common/WelcomeScreen'
-import FloatingPillNav from '@/components/common/FloatingPillNav'
 import Navbar from '@/components/navbar/Navbar'
 import Hero from '@/components/hero/Hero'
 import FloatingActionMenu from '@/components/ui/floating-action-menu'
@@ -57,10 +55,8 @@ const socialOptions = [
 export default function App() {
   return (
     <div className="bg-bg text-text font-sans overflow-x-hidden">
-      <WelcomeScreen />
       <CustomCursor />
       <ScrollProgress />
-      <FloatingPillNav />
       <Navbar />
       <main>
         <Hero />
