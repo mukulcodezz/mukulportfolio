@@ -1,6 +1,5 @@
 import { Mail } from 'lucide-react'
 import CustomCursor from '@/components/common/CustomCursor'
-import NekoCat from '@/components/common/NekoCat'
 import ScrollProgress from '@/components/common/ScrollProgress'
 import Navbar from '@/components/navbar/Navbar'
 import Hero from '@/components/hero/Hero'
@@ -54,7 +53,6 @@ export default function App() {
   return (
     <div className="bg-bg text-text font-sans overflow-x-hidden">
       <CustomCursor />
-      <NekoCat />
       <ScrollProgress />
       <Navbar />
       <main>
