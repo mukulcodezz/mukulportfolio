@@ -20,7 +20,10 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    overflow-x: clip;
+  }
 
   body {
     background-color: var(--bg);
@@ -95,7 +98,10 @@ body::before {
     font-size: 0.875rem;
     border-radius: 8px;
     transition: transform 0.15s ease, background 0.15s ease;
-    white-space: nowrap;
+    white-space: normal;
+  }
+  @media (min-width: 640px) {
+    .btn-primary { white-space: nowrap; }
   }
   .btn-primary:hover { background: #fff; transform: translateY(-1px); }
   .btn-primary:active { transform: translateY(0) scale(0.98); }
@@ -112,7 +118,10 @@ body::before {
     border-radius: 8px;
     border: 1px solid var(--border-strong);
     transition: border-color 0.15s ease, background 0.15s ease, transform 0.15s ease;
-    white-space: nowrap;
+    white-space: normal;
+  }
+  @media (min-width: 640px) {
+    .btn-ghost { white-space: nowrap; }
   }
   .btn-ghost:hover { border-color: rgba(255,255,255,0.25); background: rgba(255,255,255,0.03); transform: translateY(-1px); }
   .btn-ghost:active { transform: translateY(0) scale(0.98); }

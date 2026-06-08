@@ -1,5 +1,6 @@
-import { motion } from 'framer-motion'
-import { Bot, Zap, Brain, Code, Code2, Plug } from 'lucide-react'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { Bot, Zap, Brain, Code, Code2, Plug, ChevronDown } from 'lucide-react'
 import SectionWrapper from '@/components/common/SectionWrapper'
 import RadialOrbitalTimeline from '@/components/ui/radial-orbital-timeline'
 import { fadeUpVariant } from '@/lib/variants'
@@ -73,19 +74,79 @@ const timelineData = [
   },
 ]
 
+function MobileSkillsList({
+  items,
+}: {
+  items: (typeof timelineData)[number][]
+}) {
+  const [expanded, setExpanded] = useState<number | null>(null)
+
+  return (
+    <div className="flex flex-col gap-3">
+      {items.map((item) => {
+        const Icon = item.icon
+        const isOpen = expanded === item.id
+        return (
+          <div key={item.id} className="surface overflow-hidden">
+            <button
+              type="button"
+              className="w-full flex items-center gap-3 p-4 text-left"
+              onClick={() => setExpanded(isOpen ? null : item.id)}
+              aria-expanded={isOpen}
+            >
+              <div className="w-9 h-9 rounded-full border border-line flex items-center justify-center shrink-0">
+                <Icon size={16} className="text-accent" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="text-sm font-medium text-text">{item.title}</div>
+                <div className="text-mono text-[10px] text-text-muted uppercase tracking-wider">
+                  {item.date}
+                </div>
+              </div>
+              <ChevronDown
+                size={16}
+                className={`text-text-muted shrink-0 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+              />
+            </button>
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: 'auto', opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                  className="overflow-hidden"
+                >
+                  <p className="px-4 pb-4 text-sm text-text-muted leading-relaxed border-t border-line mx-4 pt-4">
+                    {item.content}
+                  </p>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export default function Skills() {
   return (
     <SectionWrapper id="skills">
       <motion.div variants={fadeUpVariant} className="mb-8 max-w-2xl">
-        <h2 className="text-3xl md:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-text">
+        <h2 className="text-2xl sm:text-3xl md:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-text text-balance">
           What I do.
         </h2>
         <p className="text-text-muted mt-4 leading-relaxed">
-          Six focus areas. Click any node to explore. All backed by shipped work.
+          Six focus areas. Tap to explore. All backed by shipped work.
         </p>
       </motion.div>
 
-      <motion.div variants={fadeUpVariant}>
+      <motion.div variants={fadeUpVariant} className="md:hidden">
+        <MobileSkillsList items={timelineData} />
+      </motion.div>
+
+      <motion.div variants={fadeUpVariant} className="hidden md:block">
         <RadialOrbitalTimeline timelineData={timelineData} />
       </motion.div>
     </SectionWrapper>

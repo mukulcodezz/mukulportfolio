@@ -33,6 +33,20 @@ export default function RadialOrbitalTimeline({
   const containerRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const [orbitRadius, setOrbitRadius] = useState(180);
+
+  useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+    const update = () => {
+      const width = el.clientWidth;
+      setOrbitRadius(Math.min(180, Math.max(100, (width - 48) / 2 - 24)));
+    };
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
 
   const handleContainerClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === containerRef.current || e.target === orbitRef.current) {
@@ -87,7 +101,7 @@ export default function RadialOrbitalTimeline({
 
   const calculateNodePosition = (index: number, total: number) => {
     const angle = ((index / total) * 360 + rotationAngle) % 360;
-    const radius = 180;
+    const radius = orbitRadius;
     const radian = (angle * Math.PI) / 180;
     const x = radius * Math.cos(radian);
     const y = radius * Math.sin(radian);
@@ -117,7 +131,8 @@ export default function RadialOrbitalTimeline({
 
   return (
     <div
-      className="w-full h-[600px] flex flex-col items-center justify-center bg-transparent overflow-hidden relative"
+      className="w-full h-[min(600px,calc(var(--orbit-size)+12rem))] flex flex-col items-center justify-center bg-transparent overflow-visible relative"
+      style={{ '--orbit-size': `${orbitRadius * 2}px` } as React.CSSProperties}
       ref={containerRef}
       onClick={handleContainerClick}
     >
@@ -130,7 +145,10 @@ export default function RadialOrbitalTimeline({
             <div className="w-7 h-7 rounded-full bg-white/80 backdrop-blur-md"></div>
           </div>
           {/* Orbit ring */}
-          <div className="absolute rounded-full border border-white/10" style={{ width: '380px', height: '380px' }}></div>
+          <div
+            className="absolute rounded-full border border-white/10"
+            style={{ width: orbitRadius * 2 + 20, height: orbitRadius * 2 + 20 }}
+          />
           {/* Nodes */}
           {timelineData.map((item, index) => {
             const position = calculateNodePosition(index, timelineData.length);
@@ -168,11 +186,11 @@ export default function RadialOrbitalTimeline({
                 }`}>
                   <Icon size={16} />
                 </div>
-                <div className={`absolute top-12 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-semibold tracking-wider transition-all duration-300 ${isExpanded ? "text-white scale-125" : "text-white/70"}`}>
+                <div className={`absolute top-12 left-1/2 -translate-x-1/2 text-xs font-semibold tracking-wider transition-all duration-300 text-center max-w-[5.5rem] leading-tight ${isExpanded ? "text-white scale-125" : "text-white/70"}`}>
                   {item.title}
                 </div>
                 {isExpanded && (
-                  <Card className="absolute top-20 left-1/2 -translate-x-1/2 w-64 bg-black/90 backdrop-blur-lg border-white/30 shadow-xl shadow-white/10">
+                  <Card className="absolute top-20 left-1/2 -translate-x-1/2 w-56 sm:w-64 max-w-[calc(100vw-2rem)] bg-black/90 backdrop-blur-lg border-white/30 shadow-xl shadow-white/10">
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-px h-3 bg-white/50"></div>
                     <CardHeader className="pb-2">
                       <div className="flex justify-between items-center">

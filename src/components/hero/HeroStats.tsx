@@ -39,7 +39,7 @@ export default function HeroStats() {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4, duration: 0.6 }}
-      className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8 pt-8 border-t border-line"
+      className="mt-12 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 pt-6 md:pt-8 border-t border-line"
     >
       {heroStats.map((stat, i) => (
         <StatItem key={i} {...stat} />

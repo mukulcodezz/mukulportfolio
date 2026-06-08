@@ -33,7 +33,7 @@ export default function SectionWrapper({
     <section
       id={id}
       ref={ref}
-      className={cn('py-24 md:py-32 px-6 border-t border-line', className)}
+      className={cn('py-16 md:py-24 lg:py-32 px-4 sm:px-6 border-t border-line', className)}
     >
       <motion.div
         className={cn('max-w-6xl mx-auto', containerClassName)}

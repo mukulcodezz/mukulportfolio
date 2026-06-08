@@ -1,5 +1,6 @@
 import { useRef } from 'react'
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'framer-motion'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { ArrowRight, Download } from 'lucide-react'
 import HeroStats from './HeroStats'
 import MagneticButton from '@/components/common/MagneticButton'
@@ -41,6 +42,7 @@ function WordStagger({ text, className }: { text: string; className?: string }) 
 export default function Hero() {
   const heroRef = useRef<HTMLElement>(null)
   const shouldReduce = useReducedMotion()
+  const isFinePointer = useMediaQuery('(pointer: fine)')
 
   const rawX = useMotionValue(0)
   const rawY = useMotionValue(0)
@@ -64,7 +66,7 @@ export default function Hero() {
       className="relative min-h-[100dvh] flex items-center overflow-hidden bg-bg"
     >
       {/* Cursor-follow glow */}
-      {!shouldReduce && (
+      {!shouldReduce && isFinePointer && (
         <motion.div
           className="absolute pointer-events-none rounded-full"
           style={{
@@ -93,10 +95,10 @@ export default function Hero() {
       />
 
       {/* Static ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[640px] rounded-full bg-accent/[0.06] blur-[160px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(640px,100vw)] h-[min(640px,100vw)] rounded-full bg-accent/[0.06] blur-[80px] md:blur-[160px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-6 pt-28 pb-20 w-full">
-        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-16 items-end">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-24 md:pt-28 pb-16 md:pb-20 w-full">
+        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-16 items-end">
           {/* Left */}
           <div className="flex flex-col gap-7 max-w-2xl">
             <motion.span
@@ -153,7 +155,7 @@ export default function Hero() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="surface p-6 text-mono text-[13px] text-text-muted leading-relaxed self-end"
+            className="surface p-5 sm:p-6 text-mono text-[13px] text-text-muted leading-relaxed lg:self-end"
           >
             <div className="flex items-center justify-between mb-4">
               <span className="text-text-dim uppercase tracking-[0.18em] text-[10px]">Status</span>

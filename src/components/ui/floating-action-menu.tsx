@@ -19,7 +19,11 @@ const FloatingActionMenu = ({ options, className }: FloatingActionMenuProps) => 
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className={cn("fixed bottom-8 right-8 z-50", className)}>
+    <div className={cn(
+      "hidden md:block fixed z-40",
+      "bottom-[max(1.5rem,env(safe-area-inset-bottom))] right-[max(1.5rem,env(safe-area-inset-right))]",
+      className,
+    )}>
       <Button
         onClick={() => setIsOpen(!isOpen)}
         className="w-10 h-10 rounded-full bg-[#11111198] hover:bg-[#111111d1] shadow-[0_0_20px_rgba(0,0,0,0.2)]"

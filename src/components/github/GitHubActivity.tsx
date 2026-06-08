@@ -1,4 +1,5 @@
 import { useEffect, useState, cloneElement } from 'react'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import { motion } from 'framer-motion'
 import { GitHubCalendar } from 'react-github-calendar'
 import { ArrowUpRight } from 'lucide-react'
@@ -14,6 +15,7 @@ const calendarTheme = {
 
 export default function GitHubActivity() {
   const [liveTotal, setLiveTotal] = useState<number | null>(null)
+  const isMobile = useMediaQuery('(max-width: 767px)')
 
   useEffect(() => {
     const controller = new AbortController()
@@ -68,22 +70,30 @@ export default function GitHubActivity() {
 
       <motion.div
         variants={fadeUpVariant}
-        className="surface p-6 overflow-x-auto flex justify-center"
+        className="surface p-4 sm:p-6 overflow-x-auto -mx-1 px-1 sm:mx-0 sm:px-6"
       >
+        <div className="min-w-0 flex justify-start sm:justify-center">
         <GitHubCalendar
           username={USERNAME}
           colorScheme="dark"
           theme={calendarTheme}
-          blockSize={12}
-          blockMargin={4}
-          fontSize={12}
+          blockSize={isMobile ? 8 : 12}
+          blockMargin={isMobile ? 2 : 4}
+          fontSize={isMobile ? 10 : 12}
           renderBlock={(block, activity) =>
             cloneElement(block, {
               title: `${activity.count} contribution${activity.count === 1 ? '' : 's'} on ${activity.date}`,
             } as Partial<typeof block.props>)
           }
         />
+        </div>
       </motion.div>
+
+      {isMobile && (
+        <motion.p variants={fadeUpVariant} className="text-mono text-[10px] text-text-dim mt-2 text-center">
+          Swipe to see full year
+        </motion.p>
+      )}
 
       <motion.p
         variants={fadeUpVariant}

@@ -30,7 +30,7 @@ export default function TechStack() {
               variants={fadeUpVariant}
               whileHover={shouldReduce ? undefined : { x: 4, backgroundColor: 'rgba(16,185,129,0.02)' }}
               transition={{ type: 'spring', stiffness: 320, damping: 26 }}
-              className="grid grid-cols-[auto_1fr] md:grid-cols-[220px_1fr] gap-4 md:gap-10 px-6 py-7"
+              className="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-3 md:gap-10 px-4 sm:px-6 py-6 md:py-7"
             >
               <div className="flex items-center gap-3">
                 <Icon size={16} className="text-accent" strokeWidth={1.75} />

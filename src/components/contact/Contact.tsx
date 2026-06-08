@@ -8,7 +8,7 @@ export default function Contact() {
   return (
     <SectionWrapper id="contact" className="relative overflow-hidden" direction="up">
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="w-[640px] h-[640px] rounded-full bg-accent/5 blur-[160px]" />
+        <div className="w-[min(640px,100vw)] h-[min(640px,100vw)] rounded-full bg-accent/5 blur-[80px] md:blur-[160px]" />
       </div>
 
       <div className="relative grid lg:grid-cols-[1fr_1.1fr] gap-12 lg:gap-20">

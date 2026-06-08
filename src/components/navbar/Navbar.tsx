@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { motion, AnimatePresence, useMotionValueEvent, useScroll, useReducedMotion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 
@@ -19,6 +19,11 @@ export default function Navbar() {
 
   useMotionValueEvent(scrollY, 'change', (v) => setScrolled(v > 24))
 
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [mobileOpen])
+
   const scrollTo = (href: string) => {
     setMobileOpen(false)
     const el = document.querySelector(href)
@@ -34,7 +39,7 @@ export default function Navbar() {
             : 'bg-transparent border-b border-transparent'
         }`}
       >
-        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
           <a
             href="#hero"
             onClick={(e) => { e.preventDefault(); scrollTo('#hero') }}
@@ -95,7 +100,7 @@ export default function Navbar() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-bg/97 backdrop-blur-xl flex flex-col items-center justify-center gap-6"
+            className="fixed inset-0 z-40 bg-bg/97 backdrop-blur-xl flex flex-col items-center justify-center gap-6 pt-16 pb-[env(safe-area-inset-bottom)]"
           >
             {navLinks.map((link, i) => (
               <motion.button

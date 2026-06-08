@@ -1,8 +1,10 @@
 import { useEffect } from 'react'
 import { motion, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 
 export default function CustomCursor() {
   const shouldReduce = useReducedMotion()
+  const isFinePointer = useMediaQuery('(pointer: fine)')
 
   const mouseX = useMotionValue(-200)
   const mouseY = useMotionValue(-200)
@@ -15,7 +17,7 @@ export default function CustomCursor() {
   const ringScaleSpring = useSpring(ringScale, { stiffness: 280, damping: 24 })
 
   useEffect(() => {
-    if (shouldReduce) return
+    if (shouldReduce || !isFinePointer) return
 
     const onMove = (e: PointerEvent) => {
       mouseX.set(e.clientX)
@@ -33,9 +35,9 @@ export default function CustomCursor() {
       window.removeEventListener('pointermove', onMove)
       window.removeEventListener('pointerover', onOver)
     }
-  }, [shouldReduce, mouseX, mouseY, ringScale])
+  }, [shouldReduce, isFinePointer, mouseX, mouseY, ringScale])
 
-  if (shouldReduce) return null
+  if (shouldReduce || !isFinePointer) return null
 
   return (
     <>

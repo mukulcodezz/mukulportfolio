@@ -19,7 +19,7 @@ export default function WorkExperience() {
             variants={fadeUpVariant}
             whileHover={shouldReduce ? undefined : { x: 4 }}
             transition={{ type: 'spring', stiffness: 300, damping: 24 }}
-            className={`grid grid-cols-[auto_1fr] md:grid-cols-[180px_1fr] gap-4 md:gap-10 py-7 ${
+            className={`grid grid-cols-1 sm:grid-cols-[auto_1fr] md:grid-cols-[180px_1fr] gap-2 sm:gap-4 md:gap-10 py-6 md:py-7 ${
               isLast ? '' : 'border-b border-line'
             }`}
           >

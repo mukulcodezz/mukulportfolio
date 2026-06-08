@@ -26,7 +26,7 @@ const socials = [
 export default function Footer() {
   return (
     <footer className="border-t border-line">
-      <div className="max-w-6xl mx-auto px-6 py-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 pb-[max(2.5rem,env(safe-area-inset-bottom))] flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
         <div className="flex flex-col gap-1">
           <span className="text-mono text-sm text-text font-medium">
             mukul<span className="text-accent">.</span>
