@@ -33,6 +33,7 @@ export default function RadialOrbitalTimeline({
   const containerRef = useRef<HTMLDivElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
   const nodeRefs = useRef<Record<number, HTMLDivElement | null>>({});
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
   const [orbitRadius, setOrbitRadius] = useState(180);
 
   useEffect(() => {
@@ -132,7 +133,7 @@ export default function RadialOrbitalTimeline({
   return (
     <div
       className="w-full h-[min(600px,calc(var(--orbit-size)+12rem))] flex flex-col items-center justify-center bg-transparent overflow-visible relative"
-      style={{ '--orbit-size': `${orbitRadius * 2}px` } as React.CSSProperties}
+      style={{ '--orbit-size': `${orbitRadius * 2}px`, touchAction: 'pan-y' } as React.CSSProperties}
       ref={containerRef}
       onClick={handleContainerClick}
     >
@@ -167,7 +168,15 @@ export default function RadialOrbitalTimeline({
                   zIndex: isExpanded ? 200 : position.zIndex,
                   opacity: isExpanded ? 1 : position.opacity,
                 }}
-                onClick={(e) => { e.stopPropagation(); toggleItem(item.id); }}
+                onTouchStart={(e) => { touchStartRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY }; }}
+                onTouchEnd={(e) => {
+                  if (!touchStartRef.current) return;
+                  const dx = e.changedTouches[0].clientX - touchStartRef.current.x;
+                  const dy = e.changedTouches[0].clientY - touchStartRef.current.y;
+                  touchStartRef.current = null;
+                  if (Math.sqrt(dx * dx + dy * dy) < 10) { e.stopPropagation(); toggleItem(item.id); }
+                }}
+                onClick={(e) => { if ('ontouchstart' in window) return; e.stopPropagation(); toggleItem(item.id); }}
               >
                 <div
                   className={`absolute rounded-full ${isPulsing ? "animate-pulse" : ""}`}
