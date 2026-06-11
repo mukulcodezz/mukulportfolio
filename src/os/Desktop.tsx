@@ -41,7 +41,8 @@ export default function Desktop() {
         z: ++zRef.current,
         minimized: false,
         maximized: false,
-        pos: { x: 60 + (idx % 5) * 44, y: 24 + (idx % 5) * 36 },
+        // spawn right of the desktop-icon column so icons stay clickable
+        pos: { x: 232 + (idx % 5) * 44, y: 20 + (idx % 5) * 36 },
       }]
     })
   }
