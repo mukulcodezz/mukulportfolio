@@ -1,45 +1,36 @@
 import { motion } from 'framer-motion'
-import SectionWrapper from '@/components/common/SectionWrapper'
+import CinematicSection from '@/components/terminal/CinematicSection'
+import SectionHeader from '@/components/terminal/SectionHeader'
 import ProjectCard from './ProjectCard'
 import { projects } from '@/data/projects'
-import { fadeUpVariant, staggerContainer } from '@/lib/variants'
+
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.1 } },
+}
 
 export default function Projects() {
   return (
-    <SectionWrapper id="projects">
-      <motion.div
-        variants={fadeUpVariant}
-        className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14"
-      >
-        <div className="flex flex-col gap-4 max-w-2xl">
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-text">
-            Selected work.
-          </h2>
-          <p className="text-text-muted text-base leading-relaxed max-w-[55ch]">
-            Six projects shipped for real users. Agents, automation, full client
-            sites, an MCP server, a hackathon win.
-          </p>
-        </div>
-        <a
-          href="https://github.com/mukulcodezz"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-mono text-xs text-text-muted hover:text-text transition-colors"
-        >
-          github.com/mukulcodezz →
-        </a>
-      </motion.div>
+    <CinematicSection id="projects" className="py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <SectionHeader command="ls -la ~/projects/" comment={`${projects.length} entries · sorted by impact`} />
 
-      <motion.div
-        variants={staggerContainer}
-        className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
-      >
-        {projects.map((project, idx) => (
-          <motion.div key={project.id} variants={fadeUpVariant}>
-            <ProjectCard project={project} index={idx} />
-          </motion.div>
-        ))}
-      </motion.div>
-    </SectionWrapper>
+        <p className="text-text-dim text-xs mb-6 hidden sm:block">
+          total {projects.length} drwxr-xr-x mukul mukul
+        </p>
+
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-80px' }}
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"
+        >
+          {projects.map((p, i) => (
+            <ProjectCard key={p.id} project={p} index={i} />
+          ))}
+        </motion.div>
+      </div>
+    </CinematicSection>
   )
 }

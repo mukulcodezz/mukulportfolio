@@ -1,75 +1,75 @@
-import { motion, useReducedMotion } from 'framer-motion'
-import { Bot, Zap, Brain, Network, Code, Plug } from 'lucide-react'
-import SectionWrapper from '@/components/common/SectionWrapper'
-import { fadeUpVariant } from '@/lib/variants'
+import { motion } from 'framer-motion'
+import CinematicSection from '@/components/terminal/CinematicSection'
+import SectionHeader from '@/components/terminal/SectionHeader'
+import TerminalWindow from '@/components/terminal/TerminalWindow'
 
 const capabilities = [
-  { icon: Bot, label: 'AI Agents', desc: 'Claude + tool-calling, MCP servers, agentic workflows.' },
-  { icon: Zap, label: 'Automation', desc: 'n8n, Make, Zapier. Lead capture, ops, reporting.' },
-  { icon: Brain, label: 'GenAI Integrations', desc: 'Claude, GPT-4, Gemini wired into real products.' },
-  { icon: Network, label: 'MCP Development', desc: 'Custom MCP servers + Claude Agent Skills.' },
-  { icon: Code, label: 'Full-Stack Web', desc: 'React, Vite, Tailwind. Production sites.' },
-  { icon: Plug, label: 'APIs & Webhooks', desc: 'REST, OAuth, third-party platform glue.' },
+  { flag: '--ai-agents', desc: 'Claude + tool-calling, MCP servers, agentic workflows' },
+  { flag: '--automation', desc: 'n8n, Make, Zapier. Lead capture, ops, reporting' },
+  { flag: '--genai', desc: 'Claude, GPT-4, Gemini integrations in production' },
+  { flag: '--mcp-dev', desc: 'Custom MCP servers — tools LLMs actually use' },
+  { flag: '--fullstack', desc: 'React, Vite, Tailwind, TypeScript. Fast & responsive' },
+  { flag: '--apis', desc: 'REST, OAuth, webhooks, third-party integrations' },
 ]
 
-function CapabilityTile({ icon: Icon, label, desc }: typeof capabilities[0]) {
-  const shouldReduce = useReducedMotion()
-  return (
-    <motion.div
-      whileHover={
-        shouldReduce
-          ? undefined
-          : { y: -3, borderColor: 'rgba(255,255,255,0.14)' }
-      }
-      transition={{ type: 'spring', stiffness: 340, damping: 24 }}
-      className="surface p-5 flex flex-col gap-3 cursor-default group"
-    >
-      <motion.div
-        whileHover={shouldReduce ? undefined : { scale: 1.12, rotate: 6 }}
-        transition={{ type: 'spring', stiffness: 400, damping: 18 }}
-        className="w-8 h-8 rounded-md bg-accent/10 flex items-center justify-center"
-      >
-        <Icon size={16} className="text-accent" strokeWidth={1.75} />
-      </motion.div>
-      <div>
-        <div className="text-sm font-medium text-text mb-1 group-hover:text-accent transition-colors duration-200">
-          {label}
-        </div>
-        <p className="text-xs text-text-muted leading-relaxed">{desc}</p>
-      </div>
-    </motion.div>
-  )
+const stagger = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07 } },
+}
+const item = {
+  hidden: { opacity: 0, x: -12 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.35, ease: 'easeOut' as const } },
 }
 
 export default function About() {
   return (
-    <SectionWrapper id="about">
-      <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 lg:gap-20">
-        <motion.div variants={fadeUpVariant} className="flex flex-col gap-6">
-          <span className="eyebrow">About</span>
-          <h2 className="text-3xl md:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-text">
-            B.Tech AI engineer shipping production agents and automation for paying clients.
-          </h2>
-          <div className="flex flex-col gap-4 text-text-muted leading-relaxed max-w-[55ch]">
-            <p>
-              I study at ITS Engineering College (AKTU), but the bulk of my work
-              lives outside the classroom. I build for a travel company in India,
-              a private contract for an Italy-based org, and an NFT studio.
-            </p>
-            <p>
-              Most of my time goes into AI agents, MCP servers, Claude Agent
-              Skills, and the workflows that quietly run businesses. I care
-              about systems that ship, not demos.
-            </p>
-          </div>
-        </motion.div>
+    <CinematicSection id="about" className="py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <SectionHeader command="cat about.txt" comment="who is this guy" />
 
-        <motion.div variants={fadeUpVariant} className="grid sm:grid-cols-2 gap-3">
-          {capabilities.map(({ icon, label, desc }) => (
-            <CapabilityTile key={label} icon={icon} label={label} desc={desc} />
-          ))}
-        </motion.div>
+        <div className="grid lg:grid-cols-2 gap-8">
+          <TerminalWindow title="about.txt" statusText="[READ-ONLY]">
+            <div className="p-6 text-sm leading-7 text-text-muted space-y-4">
+              <p>
+                <span className="text-accent">&gt;</span> AI Automation Engineer & GenAI developer
+                based in India. I turn manual business workflows into AI-driven systems that run
+                themselves — WhatsApp bots, lead pipelines, agent workflows.
+              </p>
+              <p>
+                <span className="text-accent">&gt;</span> Won 1st place at a college hackathon by
+                shipping a working AI attendance bot in 24 hours. Built MCP servers for the Solana
+                ecosystem. Shipped production sites for international clients.
+              </p>
+              <p>
+                <span className="text-accent">&gt;</span> Currently: automating operations at Shalom
+                Tours & Travels and open to full-time AI/automation roles.
+              </p>
+              <p className="text-text-dim text-xs pt-2">
+                -- END OF FILE --
+              </p>
+            </div>
+          </TerminalWindow>
+
+          <TerminalWindow title="mukul --help" statusText="[6 FLAGS]">
+            <motion.div
+              variants={stagger}
+              initial="hidden"
+              whileInView="show"
+              viewport={{ once: true, margin: '-60px' }}
+              className="p-6 space-y-3.5 text-sm"
+            >
+              {capabilities.map((c) => (
+                <motion.div key={c.flag} variants={item} className="flex flex-col sm:flex-row sm:gap-4 group">
+                  <span className="text-cyan glow-cyan w-32 shrink-0 group-hover:text-accent transition-colors">
+                    {c.flag}
+                  </span>
+                  <span className="text-text-muted">{c.desc}</span>
+                </motion.div>
+              ))}
+            </motion.div>
+          </TerminalWindow>
+        </div>
       </div>
-    </SectionWrapper>
+    </CinematicSection>
   )
 }
