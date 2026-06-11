@@ -22,7 +22,7 @@ const INTENTS: Intent[] = [
     strong: ['project', 'built', 'gympulse', 'portfolio piece', 'showcase'],
     weak: ['build', 'made', 'created', 'work on'],
     answer:
-      "Mukul has shipped 6 production projects: GymPulse (WhatsApp bot running a gym's entire front desk), Anchor Scaffold MCP (English spec → Solana Anchor code), an AI WhatsApp Attendance Bot (1st place hackathon win, built in 24h), a LinkedIn Outreach Claude Skill, the Shalom Tours & Travels client website, and a Web3 NFT landing page. Scroll to ./work for live links.",
+      "Mukul has shipped 6 production projects: GymPulse (WhatsApp bot running a gym's entire front desk), Anchor Scaffold MCP (English spec → Solana Anchor code), an AI WhatsApp Attendance Bot (1st place hackathon win, built in 24h), a LinkedIn Outreach Claude Skill, the Shalom Tours & Travels client website, and a Web3 NFT landing page. Open the projects app for live links.",
   },
   {
     strong: ['mcp', 'anchor', 'solana'],
@@ -34,7 +34,7 @@ const INTENTS: Intent[] = [
     strong: ['skill', 'tech stack', 'technolog', 'tools'],
     weak: ['stack', 'know', 'use', 'languages'],
     answer:
-      'Core skills: AI agents (Claude + tool-calling, MCP servers), automation (n8n, Make.com, Zapier), GenAI integrations (Claude, GPT-4, Gemini), full-stack web (React, TypeScript, Vite, Tailwind), Python, and API/webhook integrations. Check the ./skills tab for the full readout.',
+      'Core skills: AI agents (Claude + tool-calling, MCP servers), automation (n8n, Make.com, Zapier), GenAI integrations (Claude, GPT-4, Gemini), full-stack web (React, TypeScript, Vite, Tailwind), Python, and API/webhook integrations. Open skills.sys for the full readout.',
   },
   {
     strong: ['experience', 'work history', 'job history', 'companies', 'employment'],
@@ -46,7 +46,7 @@ const INTENTS: Intent[] = [
     strong: ['hire', 'hiring', 'available', 'availability', 'freelance', 'recruit', 'open to'],
     weak: ['role', 'position', 'opportunity', 'contract', 'full-time', 'fulltime', 'remote'],
     answer:
-      '[STATUS: AVAILABLE] Mukul is open to full-time AI/automation roles AND contract work, remote-friendly worldwide. Fastest channel: mukulwork1@gmail.com — he replies within 24 hours. The contact form below works too.',
+      '[STATUS: AVAILABLE] Mukul is open to full-time AI/automation roles AND contract work, remote-friendly worldwide. Fastest channel: mukulwork1@gmail.com — he replies within 24 hours. The hire_me app has a contact form too.',
   },
   {
     strong: ['contact', 'email', 'reach', 'linkedin', 'github', 'connect'],
