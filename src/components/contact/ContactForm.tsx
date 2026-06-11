@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import emailjs from '@emailjs/browser'
-import TerminalWindow from '@/components/terminal/TerminalWindow'
 
 const SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string
@@ -66,8 +65,11 @@ export default function ContactForm() {
   }[status]
 
   return (
-    <TerminalWindow title="new_message.form" statusText={emailjsReady ? '[SMTP READY]' : '[MAILTO MODE]'}>
-      <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
+    <div>
+      <p className="text-[10px] text-text-dim uppercase tracking-[0.18em] mb-3 pt-2 border-t border-line-dim">
+        # new_message.form {emailjsReady ? '[SMTP READY]' : '[MAILTO MODE]'}
+      </p>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <div className="grid sm:grid-cols-2 gap-4">
           <label className="flex flex-col">
             <span className={labelClass}>&gt; from.name</span>
@@ -125,6 +127,6 @@ export default function ContactForm() {
           {status === 'sending' && <span className="cursor-blink" />}
         </button>
       </form>
-    </TerminalWindow>
+    </div>
   )
 }
