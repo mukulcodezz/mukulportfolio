@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Send, CheckCircle, AlertCircle } from 'lucide-react'
 import emailjs from '@emailjs/browser'
+import TerminalWindow from '@/components/terminal/TerminalWindow'
 
 const SERVICE_ID  = import.meta.env.VITE_EMAILJS_SERVICE_ID  as string
 const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID as string
@@ -54,68 +54,77 @@ export default function ContactForm() {
     }
   }
 
-  const labelClass = 'text-mono text-[10px] uppercase tracking-[0.16em] text-text-muted mb-1.5'
+  const labelClass = 'text-[10px] uppercase tracking-[0.18em] text-text-dim mb-1.5'
   const inputClass =
-    'w-full bg-surface-2 border border-line rounded-md px-3.5 py-2.5 text-sm text-text placeholder-text-dim focus:outline-none focus:border-accent/60 focus:ring-1 focus:ring-accent/30 transition-colors'
+    'w-full bg-bg border border-line-dim px-3.5 py-2.5 text-sm text-text placeholder-text-dim focus:outline-none focus:border-accent/60 transition-colors font-mono'
+
+  const buttonLabel = {
+    idle:    '$ ./send_message.sh',
+    sending: '$ transmitting...',
+    sent:    '[ OK ] message delivered',
+    error:   '[ ERR ] transmission failed — retry',
+  }[status]
 
   return (
-    <form onSubmit={handleSubmit} className="surface p-7 flex flex-col gap-5">
-      <div className="grid sm:grid-cols-2 gap-4">
+    <TerminalWindow title="new_message.form" statusText={emailjsReady ? '[SMTP READY]' : '[MAILTO MODE]'}>
+      <form onSubmit={handleSubmit} className="p-6 flex flex-col gap-4">
+        <div className="grid sm:grid-cols-2 gap-4">
+          <label className="flex flex-col">
+            <span className={labelClass}>&gt; from.name</span>
+            <input
+              className={inputClass}
+              placeholder="your_name"
+              value={formData.name}
+              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              required
+            />
+          </label>
+          <label className="flex flex-col">
+            <span className={labelClass}>&gt; from.email</span>
+            <input
+              className={inputClass}
+              type="email"
+              placeholder="you@company.com"
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              required
+            />
+          </label>
+        </div>
+
         <label className="flex flex-col">
-          <span className={labelClass}>Name</span>
+          <span className={labelClass}>&gt; subject</span>
           <input
             className={inputClass}
-            placeholder="Your name"
-            value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            placeholder="role | project | intro"
+            value={formData.subject}
+            onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+          />
+        </label>
+
+        <label className="flex flex-col">
+          <span className={labelClass}>&gt; payload</span>
+          <textarea
+            className={`${inputClass} resize-none`}
+            rows={5}
+            placeholder="what are you building?"
+            value={formData.message}
+            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
             required
           />
         </label>
-        <label className="flex flex-col">
-          <span className={labelClass}>Email</span>
-          <input
-            className={inputClass}
-            type="email"
-            placeholder="you@company.com"
-            value={formData.email}
-            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-            required
-          />
-        </label>
-      </div>
 
-      <label className="flex flex-col">
-        <span className={labelClass}>Subject</span>
-        <input
-          className={inputClass}
-          placeholder="Role, project, or intro"
-          value={formData.subject}
-          onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-        />
-      </label>
-
-      <label className="flex flex-col">
-        <span className={labelClass}>Message</span>
-        <textarea
-          className={`${inputClass} resize-none`}
-          rows={5}
-          placeholder="What are you building?"
-          value={formData.message}
-          onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-          required
-        />
-      </label>
-
-      <button
-        type="submit"
-        disabled={status === 'sending'}
-        className="btn-primary justify-center disabled:opacity-60"
-      >
-        {status === 'idle'    && <><Send size={14} /> Send message</>}
-        {status === 'sending' && <><span className="w-3.5 h-3.5 border-2 border-bg/30 border-t-bg rounded-full animate-spin" /> Sending</>}
-        {status === 'sent'    && <><CheckCircle size={14} /> Message sent</>}
-        {status === 'error'   && <><AlertCircle size={14} /> Failed, try again</>}
-      </button>
-    </form>
+        <button
+          type="submit"
+          disabled={status === 'sending'}
+          className={`btn-term justify-center disabled:opacity-60 ${
+            status === 'error' ? '!border-red !bg-red/10 !text-red' : ''
+          } ${status === 'sent' ? '!bg-transparent !text-accent' : ''}`}
+        >
+          {buttonLabel}
+          {status === 'sending' && <span className="cursor-blink" />}
+        </button>
+      </form>
+    </TerminalWindow>
   )
 }

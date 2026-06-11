@@ -1,39 +1,46 @@
 import { motion } from 'framer-motion'
-import SectionWrapper from '@/components/common/SectionWrapper'
+import CinematicSection from '@/components/terminal/CinematicSection'
+import SectionHeader from '@/components/terminal/SectionHeader'
 import { testimonials } from '@/data/testimonials'
-import { fadeUpVariant, staggerContainer } from '@/lib/variants'
+
+const stagger = { hidden: {}, show: { transition: { staggerChildren: 0.15 } } }
+const item = {
+  hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const } },
+}
 
 export default function Testimonials() {
   return (
-    <SectionWrapper id="testimonials" direction="left">
-      <motion.div variants={fadeUpVariant} className="mb-12 max-w-2xl">
-        <h2 className="text-3xl md:text-5xl font-semibold tracking-[-0.025em] leading-[1.05] text-text">
-          What clients say.
-        </h2>
-      </motion.div>
+    <CinematicSection id="testimonials" className="py-24">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6">
+        <SectionHeader command='grep -r "mukul" ./feedback/' comment="what people say" />
 
-      <motion.div variants={staggerContainer} className="grid md:grid-cols-2 gap-3">
-        {testimonials.map((t) => (
-          <motion.figure
-            key={t.name}
-            variants={fadeUpVariant}
-            className="surface p-7 flex flex-col gap-6 hover:border-line-strong transition-colors"
-          >
-            <blockquote className="text-base text-text leading-relaxed">
-              &ldquo;{t.quote}&rdquo;
-            </blockquote>
-            <figcaption className="flex items-center gap-3 mt-auto pt-4 border-t border-line">
-              <div className="w-9 h-9 rounded-md border border-line text-mono text-xs font-medium text-text bg-surface-2 flex items-center justify-center">
-                {t.initials}
-              </div>
-              <div>
-                <div className="text-sm font-medium text-text">{t.name}</div>
-                <div className="text-xs text-text-muted">{t.role}</div>
-              </div>
-            </figcaption>
-          </motion.figure>
-        ))}
-      </motion.div>
-    </SectionWrapper>
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: '-60px' }}
+          className="grid md:grid-cols-2 gap-5"
+        >
+          {testimonials.map((t) => (
+            <motion.blockquote key={t.name} variants={item} className="term-frame hud-corners p-6">
+              <span className="hud-b" />
+              <p className="text-[10px] text-text-dim mb-3">
+                ./feedback/{t.name.toLowerCase().replace(/[\s&]+/g, '_')}.log
+              </p>
+              <p className="text-text-muted text-sm leading-relaxed">
+                <span className="text-accent text-lg leading-none mr-1">"</span>
+                {t.quote}
+                <span className="text-accent text-lg leading-none ml-1">"</span>
+              </p>
+              <footer className="mt-4 pt-3 border-t border-line-dim text-[12px]">
+                <span className="text-cyan">{t.name}</span>
+                <span className="text-text-dim"> — {t.role}</span>
+              </footer>
+            </motion.blockquote>
+          ))}
+        </motion.div>
+      </div>
+    </CinematicSection>
   )
 }
