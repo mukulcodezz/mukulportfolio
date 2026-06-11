@@ -4,18 +4,23 @@ export default {
   theme: {
     extend: {
       colors: {
-        bg: '#0a0a0a',
-        surface: '#111111',
-        'surface-2': '#161616',
-        line: 'rgba(255,255,255,0.07)',
-        'line-strong': 'rgba(255,255,255,0.12)',
-        text: '#ededed',
-        'text-muted': '#8a8a8a',
-        'text-dim': '#5a5a5a',
-        accent: '#10b981',
+        bg: '#030303',
+        surface: '#0a0d0a',
+        'surface-2': '#0e120e',
+        line: 'rgba(0,255,65,0.15)',
+        'line-strong': 'rgba(0,255,65,0.35)',
+        'line-dim': 'rgba(255,255,255,0.08)',
+        text: '#e8f0e8',
+        'text-muted': '#7a8a7a',
+        'text-dim': '#4a554a',
+        accent: '#00ff41',
+        'accent-dim': '#00cc34',
+        cyan: '#00e5ff',
+        amber: '#ffb000',
+        red: '#ff3b3b',
       },
       fontFamily: {
-        sans: ['Geist', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ['Geist Mono', 'ui-monospace', 'monospace'],
         mono: ['Geist Mono', 'ui-monospace', 'monospace'],
       },
       keyframes: {
