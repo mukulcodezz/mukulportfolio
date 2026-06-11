@@ -1,193 +1,185 @@
-import { useRef } from 'react'
-import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'framer-motion'
-import { useMediaQuery } from '@/hooks/useMediaQuery'
-import { ArrowRight, Download } from 'lucide-react'
-import HeroStats from './HeroStats'
-import MagneticButton from '@/components/common/MagneticButton'
+import { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+import MatrixRain from '@/components/terminal/MatrixRain'
+import TypeWriter from '@/components/terminal/TypeWriter'
+import GlitchText from '@/components/terminal/GlitchText'
+import { heroStats } from '@/data/stats'
 
 const scrollTo = (href: string) => {
   const el = document.querySelector(href)
   if (el) el.scrollIntoView({ behavior: 'smooth' })
 }
 
-const HEADLINE = 'I build AI agents and automation that ship to production.'
+const CAPABILITIES = [
+  'AI Agents',
+  'MCP Servers',
+  'Claude API',
+  'n8n Automation',
+  'WhatsApp Bots',
+  'Prompt Engineering',
+  'GenAI Integrations',
+  'Workflow Design',
+  'React / TypeScript',
+]
 
-function WordStagger({ text, className }: { text: string; className?: string }) {
-  const shouldReduce = useReducedMotion()
-  const words = text.split(' ')
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, delay: 0.15 + i * 0.12, ease: 'easeOut' as const },
+  }),
+}
+
+function HudPanel() {
+  const [uptime, setUptime] = useState(0)
+  useEffect(() => {
+    const t = setInterval(() => setUptime((u) => u + 1), 1000)
+    return () => clearInterval(t)
+  }, [])
+
+  const fmt = (s: number) =>
+    `${String(Math.floor(s / 3600)).padStart(2, '0')}:${String(Math.floor((s % 3600) / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`
+
+  const rows = [
+    ['ROLE', 'AI Automation Engineer'],
+    ['SPEC', 'GenAI / Agents / MCP'],
+    ['LOC', 'India [REMOTE-OK]'],
+    ['STACK', 'Claude · n8n · React · Py'],
+    ['STATUS', 'AVAILABLE_FOR_WORK'],
+  ]
 
   return (
-    <span className={className} aria-label={text}>
-      {words.map((word, i) => (
-        <span key={i} className="inline-block overflow-hidden align-bottom">
-          <motion.span
-            className="inline-block"
-            initial={shouldReduce ? false : { y: '110%', opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{
-              delay: 0.08 + i * 0.045,
-              duration: 0.7,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          >
-            {word}
-          </motion.span>
-          {i < words.length - 1 ? <span className="inline-block">&nbsp;</span> : null}
-        </span>
-      ))}
-    </span>
+    <div className="term-frame hud-corners p-0 relative overflow-hidden">
+      <span className="hud-b" />
+      <div className="flex items-center justify-between px-4 py-2 border-b border-line bg-surface-2">
+        <span className="text-[10px] tracking-[0.2em] text-text-muted uppercase">sys.monitor</span>
+        <span className="text-[10px] text-accent tabular-nums">UP {fmt(uptime)}</span>
+      </div>
+      <div className="p-5 space-y-2.5 text-[13px] relative">
+        <div className="scan-line" />
+        {rows.map(([k, v]) => (
+          <div key={k} className="flex justify-between gap-4">
+            <span className="text-text-dim">{k}</span>
+            <span className={k === 'STATUS' ? 'text-accent glow-soft' : 'text-text'}>{v}</span>
+          </div>
+        ))}
+        <div className="pt-3 border-t border-line-dim space-y-1.5 text-xs">
+          {heroStats.map((s) => (
+            <div key={s.label} className="flex justify-between">
+              <span className="text-text-dim">{s.label}</span>
+              <span className="text-cyan glow-cyan tabular-nums">{s.value}{s.suffix}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
   )
 }
 
 export default function Hero() {
-  const heroRef = useRef<HTMLElement>(null)
-  const shouldReduce = useReducedMotion()
-  const isFinePointer = useMediaQuery('(pointer: fine)')
-
-  const rawX = useMotionValue(0)
-  const rawY = useMotionValue(0)
-  const glowX = useSpring(rawX, { stiffness: 60, damping: 18 })
-  const glowY = useSpring(rawY, { stiffness: 60, damping: 18 })
-  const translateX = useTransform(glowX, (v) => v - 220)
-  const translateY = useTransform(glowY, (v) => v - 220)
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (!heroRef.current || shouldReduce) return
-    const rect = heroRef.current.getBoundingClientRect()
-    rawX.set(e.clientX - rect.left)
-    rawY.set(e.clientY - rect.top)
-  }
-
   return (
-    <section
-      ref={heroRef}
-      id="hero"
-      onMouseMove={handleMouseMove}
-      className="relative min-h-[100dvh] flex items-center overflow-hidden bg-bg"
-    >
-      {/* Cursor-follow glow */}
-      {!shouldReduce && isFinePointer && (
-        <motion.div
-          className="absolute pointer-events-none rounded-full"
-          style={{
-            width: 440,
-            height: 440,
-            x: translateX,
-            y: translateY,
-            background:
-              'radial-gradient(circle, rgba(16,185,129,0.09) 0%, transparent 70%)',
-          }}
-        />
-      )}
-
+    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden pt-14">
+      <MatrixRain opacity={0.07} />
       {/* Grid overlay */}
       <div
-        className="absolute inset-0 pointer-events-none opacity-30"
+        className="absolute inset-0 pointer-events-none opacity-[0.04]"
         style={{
           backgroundImage:
-            'linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)',
+            'linear-gradient(rgba(0,255,65,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(0,255,65,0.5) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
-          maskImage:
-            'radial-gradient(ellipse at 50% 0%, #000 20%, transparent 75%)',
-          WebkitMaskImage:
-            'radial-gradient(ellipse at 50% 0%, #000 20%, transparent 75%)',
         }}
       />
 
-      {/* Static ambient glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(640px,100vw)] h-[min(640px,100vw)] rounded-full bg-accent/[0.06] blur-[80px] md:blur-[160px] pointer-events-none" />
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 pt-20 pb-36 grid lg:grid-cols-[1.4fr_1fr] gap-12 items-center relative z-10 w-full">
+        <div>
+          <motion.div custom={0} variants={fadeUp} initial="hidden" animate="show">
+            <span className="status-badge">
+              <span className="dot" />
+              SYSTEM ONLINE — ACCEPTING MISSIONS
+            </span>
+          </motion.div>
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 pt-24 md:pt-28 pb-16 md:pb-20 w-full">
-        <div className="grid lg:grid-cols-[1.4fr_1fr] gap-8 lg:gap-16 items-end">
-          {/* Left */}
-          <div className="flex flex-col gap-7 max-w-2xl">
-            <motion.span
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="eyebrow"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-accent" />
-              Available for AI / Automation work
-            </motion.span>
-
-            <h1 className="text-[clamp(2.4rem,5.5vw,4.5rem)] font-semibold leading-[1.04] tracking-[-0.035em] text-text">
-              <WordStagger text={HEADLINE} />
-            </h1>
-
-            <motion.p
-              initial={{ opacity: 0, filter: 'blur(6px)' }}
-              animate={{ opacity: 1, filter: 'blur(0px)' }}
-              transition={{ delay: 0.55, duration: 0.7 }}
-              className="text-base md:text-lg text-text-muted leading-relaxed max-w-[58ch]"
-            >
-              Mukul Gupta. AI Automation & GenAI engineer building Claude/MCP
-              agents, n8n workflows, and full-stack web products for real clients.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.5 }}
-              className="flex flex-wrap items-center gap-3 pt-2"
-            >
-              <MagneticButton>
-                <button onClick={() => scrollTo('#projects')} className="btn-primary group">
-                  View work
-                  <ArrowRight
-                    size={15}
-                    className="group-hover:translate-x-0.5 transition-transform"
-                  />
-                </button>
-              </MagneticButton>
-              <MagneticButton>
-                <a href="/resume.pdf" download className="btn-ghost">
-                  <Download size={15} />
-                  Resume
-                </a>
-              </MagneticButton>
-            </motion.div>
-          </div>
-
-          {/* Right: status panel */}
-          <motion.aside
-            id="hero-status"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.3, duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="surface p-5 sm:p-6 text-mono text-[13px] text-text-muted leading-relaxed lg:self-end"
+          <motion.h1
+            custom={1}
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="mt-7 text-[clamp(1.7rem,5vw,3.4rem)] font-bold leading-[1.15] tracking-tight"
           >
-            <div className="flex items-center justify-between mb-4">
-              <span className="text-text-dim uppercase tracking-[0.18em] text-[10px]">Status</span>
-              <span className="flex items-center gap-1.5 text-accent text-[11px]">
-                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                shipping
-              </span>
-            </div>
-            <ul className="flex flex-col gap-2.5">
-              {[
-                ['role', 'AI / Automation eng'],
-                ['based', 'India, remote'],
-                ['stack', 'Claude · MCP · n8n · React'],
-                ['open to', 'FT roles + contract'],
-              ].map(([key, val], i) => (
-                <motion.li
-                  key={key}
-                  className="flex justify-between"
-                  initial={{ opacity: 0, x: 8 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + i * 0.07, duration: 0.4 }}
-                >
-                  <span className="text-text-dim">{key}</span>
-                  <span className="text-text">{val}</span>
-                </motion.li>
-              ))}
-            </ul>
-          </motion.aside>
+            <span className="text-text-dim text-[0.5em] block mb-2">$ whoami --verbose</span>
+            <GlitchText text="MUKUL GUPTA" className="text-accent glow" />
+            <br />
+            <span className="text-text">
+              <TypeWriter text="I build AI agents & automation that ship to production." speed={26} delay={600} />
+            </span>
+          </motion.h1>
+
+          <motion.p
+            custom={2}
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="mt-6 text-text-muted text-sm sm:text-[15px] leading-relaxed max-w-xl"
+          >
+            <span className="text-accent">&gt;</span> GenAI developer specializing in Claude agents,
+            MCP servers, and workflow automation. Hackathon winner. Production shipper.
+            Currently automating operations at Shalom Tours & Travels.
+          </motion.p>
+
+          <motion.div
+            custom={3}
+            variants={fadeUp}
+            initial="hidden"
+            animate="show"
+            className="mt-9 flex flex-wrap gap-4"
+          >
+            <button onClick={() => scrollTo('#projects')} className="btn-term">
+              ./view_work.sh →
+            </button>
+            <a href="/resume.pdf" download className="btn-term-ghost">
+              wget resume.pdf
+            </a>
+          </motion.div>
         </div>
 
-        <HeroStats />
+        <motion.div custom={4} variants={fadeUp} initial="hidden" animate="show">
+          <HudPanel />
+        </motion.div>
       </div>
+
+      {/* AI capabilities marquee */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.4 }}
+        className="absolute bottom-14 left-0 right-0 border-y border-line bg-surface/60 backdrop-blur-sm overflow-hidden py-2.5 select-none"
+        aria-hidden
+      >
+        <div className="flex w-max animate-marquee whitespace-nowrap text-[11px] tracking-[0.2em] uppercase text-text-muted">
+          {[0, 1].map((dup) => (
+            <span key={dup} className="flex">
+              {CAPABILITIES.map((c) => (
+                <span key={c} className="mx-5">
+                  <span className="text-accent mr-2">▸</span>{c}
+                </span>
+              ))}
+            </span>
+          ))}
+        </div>
+      </motion.div>
+
+      {/* Scroll hint */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8 }}
+        className="absolute bottom-4 left-1/2 -translate-x-1/2 text-text-dim text-[11px] tracking-widest uppercase"
+      >
+        <motion.span animate={{ y: [0, 6, 0] }} transition={{ repeat: Infinity, duration: 1.6 }} className="inline-block">
+          ▼ scroll_down
+        </motion.span>
+      </motion.div>
     </section>
   )
 }
